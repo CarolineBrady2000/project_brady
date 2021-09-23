@@ -26,7 +26,7 @@ navbar:
       href: https://carolinebrady2000.github.io/project_brady/ # add directory to GitHub repository
 output:
   bookdown::html_document2:
-    theme: sandstone
+    theme: cosmo
     number_sections: no
     toc: true
     toc_depth: 3
