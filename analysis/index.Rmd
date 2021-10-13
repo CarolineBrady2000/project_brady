@@ -7,13 +7,13 @@ biblio-style: apalike
 
 ## Project title
 
-Exploring Linguistic Biases 
+Exploring Linguistic Biases with Twitter
 
 ### Research area and problem
-The research area I am interested in learning more about is sociolinguistics, which is the study of language in society and how it interacts with characteristics like gender, perceptions, attitudes, and geographic region. A current topic of debate that I would like to address is where linguistic attitudes and biases come from in the United States. Linguistic discrimination affects many individuals in the United States because they are treated differently based on how they speak. There is still information to be learned about the patterns and origins of linguistic discrimination, in hopes of figuring out what we can do to prevent it.
+The research area I am interested in learning more about is sociolinguistics, which is the study of language in society and how it interacts with characteristics like gender, perceptions, attitudes, and geographic region. A current topic of debate that I would like to address is where linguistic attitudes and biases are more prevalent in the United States, and the characteristics of these regions. Linguistic discrimination affects many individuals in the United States because they are treated differently based on how they speak. There is still information to be learned about the patterns and origins of linguistic discrimination, in hopes of figuring out what we can do to prevent it.
 
 ### Research aim and question
-The aim of this research will be to use exploratory data analysis to investigate the origins and examples of linguistic discrimination on social media in the United States. I will investigate and analyze discriminatory language on Twitter in hopes of understanding where certain biases are more prevalent and what contexts they are linked to. The research questions I would like to address are where are certain linguistic biases most prevalent, and in which contexts do they occur? 
+The aim of this research will be to use exploratory data analysis to investigate the prevalence of linguistic discrimination on social media in the United States. I will investigate and analyze discriminatory language on Twitter in hopes of understanding where certain biases are more prevalent and the characteristics of these regions in the United States. There are two questions I would like to address. In which regions of the United States are linguistic biases more prevalent, and do these regions have higher or lower average education levels? 
 
 ## Reproduce
 
