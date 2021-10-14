@@ -23,12 +23,6 @@ library(readxl)
 
 ## Twitter Data 
 ```{r}
-app_name <- "projectbrady"
-api_key <- "R1BoZsc4rDk4Cgqm7cEJ6f7NF"
-api_secret_key <- "Y0083QsCiGQ11YTiUG3y7Q9vr6ftxunlX0ruJlNPO4DEuf2GLX"
-```
-
-```{r}
 student_token <- create_token(
   app = app_name,
   consumer_key = api_key,
