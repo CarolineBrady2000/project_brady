@@ -6,92 +6,114 @@ biblio-style: apalike
 ---
 
 ## About
-This section provides an overview of the process of acquiring data for exploratory analysis. It is important for this process to be communicable so the research is reproducible and individuals can build on these methods in the future. 
+
+This section provides an overview of the process of acquiring data for exploratory analysis. It is important for this process to be communicable so the research is reproducible and individuals can build on these methods in the future.
 
 ### Description
+
 The aim of this script is to show how we captured Twitter data and United States Census data to explore the prevalence of linguistic biases.
 
 ## Setup
-The three packages needed for acquiring data are shown in the code below. rtweets helps us get twitter data in real time, as well as the geographic location of the tweets. tidyverse includes many functions necessary for data analysis, and tidycensus includes data from the US census, including education levels of different regions of the United States. 
 
-```{r}
+The three packages needed for acquiring data are shown in the code below. rtweets helps us get twitter data in real time, as well as the geographic location of the tweets. tidyverse includes many functions necessary for data analysis, and tidycensus includes data from the US census, including education levels of different regions of the United States.
+
+```{r load important packages}
 library(rtweet)
 library(tidyverse)
 library(tidycensus)
 library(readxl)
+library(plyr)
+library(maps)
+library(ggplot2)
+library(broom)
+library(cartogram)
+library(hrbrthemes)
 ```
 
-## Twitter Data 
-```{r}
-student_token <- create_token(
-  app = app_name,
-  consumer_key = api_key,
-  consumer_secret = api_secret_key
-)
-
-saveRDS(student_token, file = "~/Desktop/student_token.rds")
-
+```{r load student token for Twitter data}
+student_token <- read_rds("student_token.rds") # path to the student_token.rds file
 ```
 
 ## Run
+
 <!-- Steps involved in acquiring and organizing the original data -->
 
-```{r}
+```{r create vector of all biased terms we'll search for in tweets}
 biased_terms <- c("no idea what he's saying", "no idea what she's saying", "weird accent", "thick accent", "bad accent", "native speaker", "bad english", "black english", "can't understand him", "can't understand her", "slang", "non-native speaker", "hard to understand", "counldn't understand a word he said", "couldn't understand a word she said", "language barrier", "barely speaks english", "Does have an accent")
 ```
 
-
-```{r}
-tweets <-
-  search_tweets(q = biased_terms) # query terms showing linguistic biases
-      n = 100 # number of desired tweets
-      include_rts = FALSE # no retweets
-      geocode = lookup_coords("usa") # only from US
-      token = (R1BoZsc4rDk4Cgqm7cEJ6f7NF) %>%  # token for authentication
-  lat_lng() # extract the geo-coordinates where available
-```
-
-```{r}
+```{r collect 500 tweets and count frequency}
 results <- 
-  bias_terms %>% # terms to search
-  map(term_search, n = 100) %>% # apply the function to each term of 100 tweets
-  do_call_rbind() %>% # join the results by rows
-  return() # return the results as a table 
-```
-
-```{r}
-results %>%
-    count(search_term, sort = TRUE) # counts the search terms in a table 
-```
-
-```{r}
-results <- 
-  bias_terms %>% # terms to search
-  map(term_search, n = 500) %>% # apply the function to each term, retrieve 500 tweets (if available)
+  biased_terms %>% # terms to search
+  map(biased_terms, n = 500) %>% # apply the function to each term, retrieve 500 tweets 
   do_call_rbind() %>% # join the results by rows
   return() # return the results
+
+results %>%
+    count("biased_terms")
+```
+
+```{r look at the tweets extracted}
+glimpse(tweets)
 ```
 
 ```{r}
+conduct_search <- FALSE # set to TRUE to conduct a new search
+
+if(conduct_search) {
+  
+  cat("Conducting new search. \n")
+  
+  biased_terms <- c("no idea what he's saying", "no idea what she's saying", "weird accent", "thick accent", "bad accent", "native speaker", "bad english", "black english", "can't understand him", "can't understand her", "slang", "non-native speaker", "hard to understand", "counldn't understand a word he said", "couldn't understand a word she said", "language barrier", "barely speaks english", "Does have an accent")
+  
+  biased_terms %>% # terms to search
+    map(term_search, n = 500) %>% # apply the function to each term, retrieve 500 tweets 
+    do_call_rbind() %>% # join the results by rows
+    save_as_csv(file_name = "../data/original/twitter/bias_terms.csv")
+  cat("Search results saved to disk. \n")
+  
+} else {
+  cat("Keeping previous search results. \n")
+}
+
+```
+
+```{r puts biased terms in a map of the USA}
 states_map <- map_data("state")  
 
 p <- ggplot() + geom_polygon(data = states_map, aes(x = long, y = lat, group = group),
     fill = "grey", color = "black") + labs(title = "Biased Tweets in the USA", subtitle = "Biased Language")
 
-p + geom_point(data = results, aes(x = lng, y = lat, group = 1, color = search_term),
+p + geom_point(data = results, aes(x = lng, y = lat, group = 1, color = biased_terms),
     alpha = 1/2, size = 1.5)
 ```
 
-## Census Data 
-This step in the process is determined by the first step. We will analyze the states with the highest density of biased tweets, then analyze demographic information about these states from US census data. 
+```{r}
+par(family=font_rc, col="white")
+
+eechidna:::dorling(
+  for_dor$state, for_dor$x, for_dor$y, sqrt(for_dor$n), nbr=cartogram::statenbrs, 
+  animation = FALSE, nbredge = TRUE, iteration=100, name.text=TRUE, dist.ratio=1.2,
+  main="Dorling Cartogram of U.S. #rstats", xlab='', ylab='', col="lightslategray",
+  frame=FALSE, asp=1, family=font_rc, cex.main=1.75, adj=0
+) -> dor
+```
+
+## Census Data
+
+This step in the process is determined by the first step. We will analyze the states with the highest density of biased tweets, then analyze demographic information about these states from US census data.
 
 ```{r}
 states_of_interest <- data.frame(State = c("Alabama", "Kentucky", "Missouri", "South Carolina", "Texas", "West Virginia"),
                                  Abb = c("AL", "KY", "MO", "SC", "TX", "WV"))
-# enter whichever states have the mosted biased tweets from part 1 
+# enter whichever states have the most biased tweets from part 1 
 ```
 
+```{r}
+states_of_interest <- as_tibble(states_of_interest)
 
+states_of_interest
+```
 
 ```{r}
 library(here)
@@ -107,18 +129,38 @@ census_edu_clean <- census_edu %>%
   select(County = GEO.display.label, PercentBachelorOrHigher = HC01_EST_VC05)
 ```
 
-## Finalize 
-```{r} 
+```{r}
+census_edu_clean <- census_edu %>%
+  select(County = which(str_detect(unlist(.[1,]), "Geography") == T), PercentBachelorOrHigher = which(str_detect(unlist(.[1,]), "Total; Estimate; Bachelor's degree or higher") == T))
+```
+
+```{r}
+census_edu_clean <- census_edu %>%
+  select(County = which(str_detect(unlist(.[1,]), "Geography") == T), PercentBachelorOrHigher = which(str_detect(unlist(.[1,]), "Total; Estimate; Percent bachelor's degree or higher") == T)) %>%
+  slice(-1) %>%
+  mutate(PercentBachelorOrHigher = as.numeric(levels(PercentBachelorOrHigher))[PercentBachelorOrHigher] * 0.01) %>%
+  drop_na()
+
+head(census_edu_clean)
+```
+
+## Finalize
+
+```{r}
 save_as_csv(results, file_name = "../data/original/twitter/bias_terms.csv") #save the data results as a csv file 
 ```
 
 ### Log
 
-The output of this code shows us a random sample of 100 tweets containing the biased terms that hint at discriminatory language in tweets. Then the counts of each biased term will appear in a table, and a map of the United States will show the origin of these tweets. This map will help us visualize where the biased tweets are concentrated in the United States. 
+The output of this code shows us a random sample of 500 tweets containing the biased terms that hint at discriminatory language in tweets. Then the counts of each biased term will appear in a table, and a map of the United States will show the origin of these tweets [@6.contr]. This map will help us visualize where the biased tweets are concentrated in the United States. Additionally, a dorling cartogram shows the density of certain biased tweets in the USA [@rudis].
+
+Then we look at the census data for the states with the most biased tweets to analyze education characteristics of states in the USA that produce more biased tweets. For example, we will look at the percentage of the population that graduated from high school, and the percentage of the population with a bachelor's degree or higher. The code will present us with data for each state determined to have the highest density of biased tweets so we can begin to draw conclusions about bias and education [@conner].
 
 ### Session
 
-<details><summary>View session information</summary>
+View session information
+
+</summary>
 
 ```{r, child="_session-info.Rmd"}
 ```
