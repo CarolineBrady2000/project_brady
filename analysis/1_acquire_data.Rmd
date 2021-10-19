@@ -28,6 +28,7 @@ library(ggplot2)
 library(broom)
 library(cartogram)
 library(hrbrthemes)
+library(purrr)
 ```
 
 ```{r load-student-token-for-Twitter-data}
@@ -42,15 +43,35 @@ student_token <- read_rds("student_token.rds") # path to the student_token.rds f
 biased_terms <- c("no idea what he's saying", "no idea what she's saying", "weird accent", "thick accent", "bad accent", "native speaker", "bad english", "black english", "can't understand him", "can't understand her", "slang", "non-native speaker", "hard to understand", "counldn't understand a word he said", "couldn't understand a word she said", "language barrier", "barely speaks english", "Does have an accent")
 ```
 
+
+```{r create-term_search-function}
+term_search <- 
+  function(search_term, n = 100) {
+    # Function: 
+    # Search recent tweets for specific term
+    
+    library(rtweet) # to search Twitter API
+    
+    tweets <- 
+      search_tweets(q = sQuote(search_term), # query term (from search_term)
+                    n = n, # number of desired tweets (from n)
+                    include_rts = FALSE, # no retweets
+                    geocode = lookup_coords("usa"), # only from US
+                    token = student_token) %>%  # token for authentication
+      lat_lng() %>% # extract the geocoordinates where available
+      mutate(search_term = search_term) # add search_term value to the data frame
+    return(tweets) # return the results
+  }
+```
+
+
 ```{r collect-500-tweets-and-count-frequency}
 results <- 
   biased_terms %>% # terms to search
-  map(biased_terms, n = 500) %>% # apply the function to each term, retrieve 500 tweets 
+  map(term_search, n=500) %>% # apply the function to each term, retrieve 500 tweets
+  
   do_call_rbind() %>% # join the results by rows
   return() # return the results
-
-results %>%
-    count("biased_terms")
 ```
 
 ```{r look-at-the-tweets-extracted}
