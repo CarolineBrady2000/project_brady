@@ -97,7 +97,7 @@ results %>%
 ```
 
 ## Finalize
-Now that we have collected our data from twitter, we want to save it to a csv file in our directory. Our results showed 4542 observations with 93 variables, and this data will be curated into a useful table in the next step. 
+Now that we collected our data from twitter, we want to save it to a csv file in our directory. Our results showed 4542 observations with 93 variables, and this data will be curated into a useful table in the next step. 
 ```{r save-as-csv-file}
 save_as_csv(results, file_name = "../data/original/bias_terms.csv") #save the data results as a csv file 
 ```

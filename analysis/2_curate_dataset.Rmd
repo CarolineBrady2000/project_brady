@@ -10,35 +10,63 @@ biblio-style: apalike
 ### Description
 The aim of this script is to take our data that we acquired from Twitter and curate a useful table with the information we need to analyze it. This will involve selecting specific variables that will be useful and naming them to describe their contents. 
 
-### Usage
-
-<!-- How to run this script: what input it requires and output produced -->
-
 ## Setup
-
+First we need to load the necessaryp packages into our workspace.
 ```{r setup}
-# Script-specific options or packages
+library(rtweet) #for twitter data
+library(tidyverse) #for data manipulation
+library(readtext) #for reading the text file 
+library(tidytext) #for separating rows and columns
+```
 
+Then we need to read in our data file from the acquire data step. 
+```{r read-in-run-files}
+biased_tweets <- readtext(file = "../data/original/bias_terms.csv", verbosity = 0) %>%
+  as_tibble()
+  #read the .run files and suppress warnings 
 ```
 
 ## Run
+Now that we've read our data file into our work space, we want to glimpse the data to see what we're working with. 
+```{r see-data}
+glimpse(biased_tweets) #glimpse data
+```
+This showed us, again, that our data contains 4,542 observations with 94 variables. We don't need all of this information from each of the tweets, so we need to curate a more useful data table for us to work with. 
 
-<!-- Steps involved in curating and organizing the data -->
-
-## Finalize
-
-### Log
-
-<!-- Any description that will be helpful to understand the results of this script and how it contributes to the aims of the project -->
-
-### Session
-
-<details><summary>View session information</summary>
-
-```{r, child="_session-info.Rmd"}
+```{r create-table-with-useful-variables}
+ twitter_data <- as_tibble(select(biased_tweets, c("text", "text.1", "favorite_count", "retweet_count", "lat", "lng", "search_term"))) # create table of biased_tweets data with only specific columns
 ```
 
-</details>
+```{r see-data-as-a-table}
+twitter_data
+```
+This table successfully shows us all the tweets we acquired, which is a total of 4,542. The variables I chose to describe them include the ID number, the text of the tweet, how many times it was favorited, how many times it was retweeted, latitude and longitude, and which biased term was in the tweet. 
+
+Now we can use this table to explore factors like "How popular are tweets with certain biased terms?" "How many people retweet people's tweets that are discriminatory?" "Which groups of speakers are subject to the most bias on twitter as shown through these tweets?" However, not all of these tweets have available latitude and longitude information, so we will want to do a separate exploration on the tweets with this information. 
+
+Here we will create a separate object for the tweets with latitude and longitude information. 
+```{r extract-tweets-with-geolocation}
+twitter_geo_data <- twitter_data %>% #save tweets to separate object
+  filter(lat!="") %>% #filter tweets with latitude information
+  glimpse() 
+```
+
+```{r see-geolocation-data-as-a-table}
+as_tibble(twitter_geo_data) #see tweets in tabular format
+```
+Now we can see the 193 tweets that did come with location data. 
+
+## Finalize
+Now we will save both of these curated data sets to csv files for future reference and analysis.
+```{r save-twitterdata-as-csv-file}
+save_as_csv(twitter_data, file_name = "../data/original/twitter_data.csv") #save the curated data results as a csv file 
+```
+
+```{r save-geodata-as-csv-file}
+save_as_csv(twitter_geo_data, file_name = "../data/original/twitter_geo_data.csv") #save the curated data results with latitude and longitude as a csv file 
+```
+
+### Session
 
 ```{r cleanup, echo=FALSE}
 rm(list = ls()) # clean working environment
