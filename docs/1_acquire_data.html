@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2021-10-12" />
+<meta name="date" content="2021-10-26" />
 
 <title>Acquire data</title>
 
@@ -488,48 +488,91 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Acquire data</h1>
-<h4 class="date">2021-10-12</h4>
+<h4 class="date">2021-10-26</h4>
 
 </div>
 
 
 <div id="about" class="section level2">
 <h2>About</h2>
+<p>This section provides an overview of the process of acquiring data for exploratory analysis. It is important for this process to be communicable so the research is reproducible and individuals can build on these methods in the future.</p>
 <div id="description" class="section level3">
 <h3>Description</h3>
-<!-- The aim of this script -->
-</div>
-<div id="usage" class="section level3">
-<h3>Usage</h3>
-<!-- How to run this script: what input it requires and output produced -->
+<p>The aim of this script is to show how we captured Twitter data to explore the prevalence and geolocations of linguistic biases.</p>
 </div>
 </div>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Script-specific options or packages</span></span></code></pre></div>
+<p>The packages needed for acquiring data are shown in the code below. For example, rtweets helps us get twitter data in real time, as well as the geographic location of the tweets, and tidyverse includes many functions necessary for data analysis.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtweet)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code></pre></div>
+<p>Now we load our student token from Twitter into R so we are able to access and acquire Twitter data.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>student_token <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;student_token.rds&quot;</span>) <span class="co"># path to the student_token.rds file</span></span></code></pre></div>
 </div>
 <div id="run" class="section level2">
 <h2>Run</h2>
-<!-- Steps involved in acquiring and organizing the original data -->
+<p>This section provides an overview of exactly how the data was acquired and organized.
+First, we create a vector of terms that reflect linguistic biases, and call it biased_terms.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>biased_terms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;no idea what he&#39;s saying&quot;</span>, <span class="st">&quot;no idea what she&#39;s saying&quot;</span>, <span class="st">&quot;weird accent&quot;</span>, <span class="st">&quot;thick accent&quot;</span>, <span class="st">&quot;bad accent&quot;</span>, <span class="st">&quot;native speaker&quot;</span>, <span class="st">&quot;bad english&quot;</span>, <span class="st">&quot;black english&quot;</span>, <span class="st">&quot;can&#39;t understand him&quot;</span>, <span class="st">&quot;can&#39;t understand her&quot;</span>, <span class="st">&quot;slang&quot;</span>, <span class="st">&quot;non-native speaker&quot;</span>, <span class="st">&quot;hard to understand&quot;</span>, <span class="st">&quot;language barrier&quot;</span>, <span class="st">&quot;barely speaks english&quot;</span>, <span class="st">&quot;Does have an accent&quot;</span>) </span></code></pre></div>
+<p>Now we create the term_search custom function so we can search for our biased terms in Twitter data.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>term_search <span class="ot">&lt;-</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(search_term, <span class="at">n =</span> <span class="dv">100</span>) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Function: </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Search recent tweets for specific term</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(rtweet) <span class="co"># to search Twitter API</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    tweets <span class="ot">&lt;-</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">search_tweets</span>(<span class="at">q =</span> <span class="fu">sQuote</span>(search_term), <span class="co"># query term (from search_term)</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n =</span> n, <span class="co"># number of desired tweets (from n)</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">include_rts =</span> <span class="cn">FALSE</span>, <span class="co"># no retweets</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">geocode =</span> <span class="fu">lookup_coords</span>(<span class="st">&quot;usa&quot;</span>), <span class="co"># only from US</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">token =</span> student_token) <span class="sc">%&gt;%</span>  <span class="co"># token for authentication</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">lat_lng</span>() <span class="sc">%&gt;%</span> <span class="co"># extract the geocoordinates where available</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">search_term =</span> search_term) <span class="co"># add search_term value to the data frame</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(tweets) <span class="co"># return the results</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<p>Now we collect the twitter data with our custom term_search function to find a large sample of tweets containing our biased terms.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  biased_terms <span class="sc">%&gt;%</span> <span class="co"># terms to search</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(term_search, <span class="at">n =</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span> <span class="co"># apply the function to each term, retrieve 500 tweets</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do_call_rbind</span>() <span class="sc">%&gt;%</span> <span class="co"># join the results by rows</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>() <span class="co"># return the results</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(search_term, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="co">#count the number of tweets collected for each search term</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conduct_search <span class="ot">&lt;-</span> <span class="cn">FALSE</span> <span class="co"># set to TRUE to conduct a new search</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(conduct_search) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Conducting new search. </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  biased_terms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;no idea what he&#39;s saying&quot;</span>, <span class="st">&quot;no idea what she&#39;s saying&quot;</span>, <span class="st">&quot;weird accent&quot;</span>, <span class="st">&quot;thick accent&quot;</span>, <span class="st">&quot;bad accent&quot;</span>, <span class="st">&quot;native speaker&quot;</span>, <span class="st">&quot;bad english&quot;</span>, <span class="st">&quot;black english&quot;</span>, <span class="st">&quot;can&#39;t understand him&quot;</span>, <span class="st">&quot;can&#39;t understand her&quot;</span>, <span class="st">&quot;slang&quot;</span>, <span class="st">&quot;non-native speaker&quot;</span>, <span class="st">&quot;hard to understand&quot;</span>, <span class="st">&quot;language barrier&quot;</span>, <span class="st">&quot;barely speaks english&quot;</span>, <span class="st">&quot;Does have an accent&quot;</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  biased_terms <span class="sc">%&gt;%</span> <span class="co"># terms to search</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(term_search, <span class="at">n =</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span> <span class="co"># apply the function to each term, retrieve 500 tweets</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do_call_rbind</span>() <span class="sc">%&gt;%</span> <span class="co"># join the results by rows</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>() <span class="co"># return the results</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">save_as_csv</span>(<span class="at">file_name =</span> <span class="st">&quot;../data/original/bias_terms.csv&quot;</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Search results saved to disk. </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span> </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(search_term, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="co">#count the number of tweets collected for each search term </span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Keeping previous search results. </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Keeping previous search results.</code></pre>
 </div>
 <div id="finalize" class="section level2">
 <h2>Finalize</h2>
+<p>Now that we collected our data from twitter, we want to save it to a csv file in our directory. Our results showed 4542 observations with 93 variables, and this data will be curated into a useful table in the next step.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save_as_csv</span>(results, <span class="at">file_name =</span> <span class="st">&quot;../data/original/bias_terms.csv&quot;</span>) <span class="co">#save the data results as a csv file </span></span></code></pre></div>
 <div id="log" class="section level3">
 <h3>Log</h3>
-<!-- Any description that will be helpful to understand the results of this script and how it contributes to the aims of the project -->
-</div>
-<div id="session" class="section level3">
-<h3>Session</h3>
-<details>
-<summary>
-View session information
-</summary>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["package"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ondiskversion"],"name":[2],"type":["chr"],"align":["left"]},{"label":["loadedversion"],"name":[3],"type":["chr"],"align":["left"]},{"label":["path"],"name":[4],"type":["chr"],"align":["left"]},{"label":["loadedpath"],"name":[5],"type":["chr"],"align":["left"]},{"label":["attached"],"name":[6],"type":["lgl"],"align":["right"]},{"label":["is_base"],"name":[7],"type":["lgl"],"align":["right"]},{"label":["date"],"name":[8],"type":["chr"],"align":["left"]},{"label":["source"],"name":[9],"type":["chr"],"align":["left"]},{"label":["md5ok"],"name":[10],"type":["lgl"],"align":["right"]},{"label":["library"],"name":[11],"type":["fct"],"align":["left"]}],"data":[{"1":"citr","2":"0.3.2","3":"0.3.2","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/citr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/citr","6":"TRUE","7":"FALSE","8":"2021-08-20","9":"Github (crsh/citr@0e8243d)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"citr"},{"1":"dplyr","2":"1.0.7","3":"1.0.7","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/dplyr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/dplyr","6":"TRUE","7":"FALSE","8":"2021-06-18","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"dplyr"},{"1":"forcats","2":"0.5.1","3":"0.5.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/forcats","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/forcats","6":"TRUE","7":"FALSE","8":"2021-01-27","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"forcats"},{"1":"ggplot2","2":"3.3.5","3":"3.3.5","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/ggplot2","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/ggplot2","6":"TRUE","7":"FALSE","8":"2021-06-25","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"ggplot2"},{"1":"gitcreds","2":"0.1.1","3":"0.1.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/gitcreds","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/gitcreds","6":"TRUE","7":"FALSE","8":"2020-12-04","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"gitcreds"},{"1":"knitr","2":"1.34","3":"1.34","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/knitr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/knitr","6":"TRUE","7":"FALSE","8":"2021-09-09","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"knitr"},{"1":"magrittr","2":"2.0.1","3":"2.0.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/magrittr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/magrittr","6":"TRUE","7":"FALSE","8":"2020-11-17","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"magrittr"},{"1":"pacman","2":"0.5.1","3":"0.5.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/pacman","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/pacman","6":"TRUE","7":"FALSE","8":"2019-03-11","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"pacman"},{"1":"purrr","2":"0.3.4","3":"0.3.4","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/purrr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/purrr","6":"TRUE","7":"FALSE","8":"2020-04-17","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"purrr"},{"1":"readr","2":"2.0.1","3":"2.0.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readr","6":"TRUE","7":"FALSE","8":"2021-08-10","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"readr"},{"1":"rmarkdown","2":"2.11","3":"2.11","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/rmarkdown","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/rmarkdown","6":"TRUE","7":"FALSE","8":"2021-09-14","9":"CRAN (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"rmarkdown"},{"1":"sessioninfo","2":"1.1.1","3":"1.1.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/sessioninfo","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/sessioninfo","6":"TRUE","7":"FALSE","8":"2018-11-05","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"sessioninfo"},{"1":"stringr","2":"1.4.0","3":"1.4.0","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/stringr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/stringr","6":"TRUE","7":"FALSE","8":"2019-02-10","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"stringr"},{"1":"tibble","2":"3.1.4","3":"3.1.4","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tibble","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tibble","6":"TRUE","7":"FALSE","8":"2021-08-25","9":"CRAN (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tibble"},{"1":"tidyr","2":"1.1.3","3":"1.1.3","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyr","6":"TRUE","7":"FALSE","8":"2021-03-03","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tidyr"},{"1":"tidyverse","2":"1.3.1","3":"1.3.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyverse","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyverse","6":"TRUE","7":"FALSE","8":"2021-04-15","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tidyverse"},{"1":"usethis","2":"2.0.1","3":"2.0.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/usethis","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/usethis","6":"TRUE","7":"FALSE","8":"2021-02-10","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"usethis"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</details>
+<p>The output of this code shows us a random sample of tweets containing the biased terms that hint at discriminatory language in tweets. Then the counts of each biased term will appear in a table, and we have another large table with 93 variables describing the tweets in which the biased terms appear.</p>
 </div>
 </div>
 <div id="references" class="section level2">
