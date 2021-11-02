@@ -6,12 +6,10 @@ biblio-style: apalike
 ---
 
 ## About
-
-### Description
 The aim of this script is to take our data that we acquired from Twitter and curate a useful table with the information we need to analyze it. This will involve selecting specific variables that will be useful and naming them to describe their contents. 
 
 ## Setup
-First we need to load the necessaryp packages into our workspace.
+First we need to load the necessary packages into our workspace.
 ```{r setup}
 library(rtweet) #for twitter data
 library(tidyverse) #for data manipulation
