@@ -71,7 +71,7 @@ So since the sentiments dataset only contains 6,786 words, there are some words 
 ```{r extract-words-with-sentiment}
 tweets_words_sentiments <- tweets_words_allsentiments %>% #save tweets to separate object
   filter(sentiment!="") %>% #filter tweets with latitude information
-  glimpse() %>%
+  glimpse() 
 ```
 
 ```{r see-transformed-data}
@@ -112,12 +112,6 @@ Now we have a map of the USA with the biased tweets plotted from geolocation, an
 First we'll save our transformed data for the sentiment and favorite count analysis. 
 ```{r save-first-dataset}
 save_as_csv(tweets_words_sentiments, file_name = "../data/original/tweets_words_sentiments.csv") #save the transformed data results as a csv file
-```
-
-Next we'll save our map for tweets with geolocation for location analysis.
-
-```{r save-second-dataset}
-save_as_csv(tweets_map, file_name = "../data/original/tweets_map.csv") #save the transformed data results as a csv file
 ```
 
 ### Log
