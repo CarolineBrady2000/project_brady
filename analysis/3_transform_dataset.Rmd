@@ -118,13 +118,12 @@ plot_tweet_terms <- function(tweets) {
 ```
 
 ```{r plot-tweets-as-map-of-USA}
-tweets_map <- plot_tweet_terms(tweets = twitter_geolocation_data) 
+states_map <- plot_tweet_terms(tweets = twitter_geolocation_data) # create object with a map of tweets
+states_map
 ```
-
 Now we have a map of the USA with the biased tweets plotted from geolocation, and the points are color-coded by the biased term they contained.
 
 ## Finalize
-
 First we'll save our transformed data for the sentiment and favorite count analysis.
 
 ```{r save-first-dataset}
@@ -133,8 +132,8 @@ save_as_csv(tweets_words_sentiments, file_name = "../data/original/tweets_words_
 
 Next we want to save our map with plotted geolocations. 
 
-```{r save-map-dataset}
-save_as_csv(tweets_map, file_name = "../data/original/map.csv")
+```{r save-map-as-plot}
+ggsave(filename = "../data/original/states_map.png", plot = states_map, width = )
 ```
 
 ### Log

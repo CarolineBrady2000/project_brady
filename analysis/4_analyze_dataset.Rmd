@@ -112,12 +112,16 @@ c1$p.value < .05
 Based on this output, we see that there is a significant effect of search term on the number of times a tweet is favorited. Therefore, there are certain search terms that are significantly more popular than others.
 
 ### Geographic Analysis
-
 Let's look at our map and see if there are trends where certain biased terms are more common in certain regions. To recap, we have a map of the United States and the geolocation of each tweet plotted in a color corresponding to the biased search term that was contained in that tweet. This could help us visualize if certain biases are more prevalent in certain regions of the country. Understanding where biases are more common may help us begin to eliminate linguistic discrimination by targeting certain regions with certain information.
 
-xxx insert map?
+```{r insert-map}
+knitr::include_graphics(path="../data/states_map_fixed.png") #pull image from the data folder and print in this page
+```
+Here we see a map of the United States with tweets plotted based on available geolocation, and the biased search term found in that tweet is color-coded based on the legend on the right side. First, we see a majority of biased tweets concentrated in the midwest and the east coast. This may be due to a larger concentration of tweets coming from this area in the first place, or it could be because individuals in those regions hold more linguistic biases. 
 
-This map shows that...
+We do see a second trend based on search terms. In the south west, we see more biased tweets with terms such as "can't understand him or her", "hard to understand", and "language barrier." This may suggest that individuals in the south west hold biases towards other accents or languages based on a lack of understanding or comprehension. 
+
+In the northeast and the midwest, we see more biased tweets with terms such as "native speaker", "nonnative speaker", "slang", and "thick accent." This may suggest that individuals in the northeast and midwest hold biases towards nonnative speakers of English or their native language. Linguistic discrimination in these regions may target nonnative speakers of English or people who speak with a thick accent who speak English as a second or third language. Also, the search term "slang" may suggest that individuals in the northeast and midwest hold biases towards informal and nontraditional language and label any of that language as "slang." 
 
 ### Log
 
