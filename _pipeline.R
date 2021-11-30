@@ -29,7 +29,7 @@ render_site(input = "analysis/2_curate_dataset.Rmd")
 
 # 3. Transform dataset
 
-render_site(input = "analysis/3_transform_dataset.Rmd")
+    render_site(input = "analysis/3_transform_dataset.Rmd")
 
 # 4. Analyze dataset
 

@@ -4,11 +4,15 @@ date: "`r Sys.Date()`"
 bibliography: references.bib
 biblio-style: apalike
 ---
+
 ## About
-In this step we will be taking the curated data sets and creating transformed data sets that are ready for the analysis step. 
+
+In this step we will be taking the curated data sets and creating transformed data sets that are ready for the analysis step.
 
 ## Setup
+
 First we need to load the necessary packages into our workspace.
+
 ```{r setup}
 library(rtweet) #for twitter data
 library(tidyverse) #for data manipulation
@@ -17,14 +21,16 @@ library(tidytext) #for separating rows and columns
 library(knitr) # for pretty tables
 ```
 
-Then we need to read in our data files from the curate data step. The first one is the entire set of observations with the variables of interest. 
+Then we need to read in our data files from the curate data step. The first one is the entire set of observations with the variables of interest.
+
 ```{r read-in-curated-data}
 twitter_data <- readtext(file = "../data/original/twitter_data.csv", verbosity = 0) %>%
   as_tibble()
   #read the .run files and suppress warnings 
 ```
 
-The second file is a filtered version of the original file but just has the tweets that came with latitude and longitude information. 
+The second file is a filtered version of the original file but just has the tweets that came with latitude and longitude information.
+
 ```{r read-in-curated-data-with-geolocation}
 twitter_geolocation_data <- readtext(file = "../data/original/twitter_geo_data.csv", verbosity = 0) %>%
   as_tibble()
@@ -32,24 +38,28 @@ twitter_geolocation_data <- readtext(file = "../data/original/twitter_geo_data.c
 ```
 
 ## Run
+
 Now that we've read our data file into our work space, we want to glimpse the data to see what we're working with.
+
 ```{r glimpse-dataset}
 glimpse(twitter_data) %>% 
  slice_head(n=10) %>%
   as_tibble()
 ```
 
-The first part of this project will take our first curated data set and merge sentiment information with it. The goal is to explore if there is a relationship between sentiment of the entire tweet, biased terms, and how popular they are based on favorite counts. It is possible that people are more likely to favorite tweets that have an overall positive sentiment even though they contain biased terms because it misleads them to think that the biased term is not used in a negative way. The overall positive sentiment of the tweet may mask the negative and discriminatory implications of the biased term. 
+The first part of this project will take our first curated data set and merge sentiment information with it [@8.datas]. The goal is to explore if there is a relationship between sentiment of the entire tweet, biased terms, and how popular they are based on favorite counts. It is possible that people are more likely to favorite tweets that have an overall positive sentiment even though they contain biased terms because it misleads them to think that the biased term is not used in a negative way. The overall positive sentiment of the tweet may mask the negative and discriminatory implications of the biased term.
 
-The next part of this project will be to create a map of the tweets on a map of the United States to see if there is any one region that is concentrated with the biased tweets. 
+The next part of this project will be to create a map of the tweets on a map of the United States to see if there is any one region that is concentrated with the biased tweets.
 
-So first, we will merge sentiments with the twitter data file. 
+So first, we will merge sentiments with the twitter data file.
+
 ```{r read-sentiments-data}
 sentiments <- get_sentiments() #load the sentiment lexicon
 
 glimpse(sentiments) #preview the dataset
 ```
-The sentiments information has 6,786 observations (words) and their associated sentiment, either positive or negative. 
+
+The sentiments information has 6,786 observations (words) and their associated sentiment, either positive or negative.
 
 ```{r tokenize-tweets-by-words}
 tweets_words <-
@@ -57,7 +67,8 @@ twitter_data %>%
   unnest_tokens(output = "word", input = "text.1", token = "words") #change text column to words and tokenize tweets by word so each row is a word
 ```
 
-Now that each data set has a "word" column, we can join them together. 
+Now that each data set has a "word" column, we can join them together.
+
 ```{r join-datasets}
 tweets_words_allsentiments <- 
   left_join(tweets_words, sentiments) # join both data sets by word and assign to new object
@@ -67,7 +78,9 @@ tweets_words_allsentiments <-
 tweets_words_allsentiments %>%
   slice_head(n=100)
 ```
-So since the sentiments dataset only contains 6,786 words, there are some words in our tweets that do not have sentiments assigned to them. So let's filter the data for words with sentiements assigned to them. 
+
+So since the sentiments dataset only contains 6,786 words, there are some words in our tweets that do not have sentiments assigned to them. So let's filter the data for words with sentiements assigned to them.
+
 ```{r extract-words-with-sentiment}
 tweets_words_sentiments <- tweets_words_allsentiments %>% #save tweets to separate object
   filter(sentiment!="") %>% #filter tweets with latitude information
@@ -77,7 +90,8 @@ tweets_words_sentiments <- tweets_words_allsentiments %>% #save tweets to separa
 ```{r see-transformed-data}
 as_tibble(tweets_words_sentiments)
 ```
-The transformed dataset we are left with contains the tweets divided by words, the favorite and retweet count, the biased term in the tweet, and the sentiment of the word. 
+
+The transformed dataset we are left with contains the tweets divided by words, the favorite and retweet count, the biased term in the tweet, and the sentiment of the word.
 
 Now we will move on to creating a map of the United States with our tweets that had latitude and longitude information. The map will show each biased term as a different color to see the prevalence of certain terms in different regions of the USA.
 
@@ -106,20 +120,36 @@ plot_tweet_terms <- function(tweets) {
 ```{r plot-tweets-as-map-of-USA}
 tweets_map <- plot_tweet_terms(tweets = twitter_geolocation_data) 
 ```
+
 Now we have a map of the USA with the biased tweets plotted from geolocation, and the points are color-coded by the biased term they contained.
 
 ## Finalize
-First we'll save our transformed data for the sentiment and favorite count analysis. 
+
+First we'll save our transformed data for the sentiment and favorite count analysis.
+
 ```{r save-first-dataset}
 save_as_csv(tweets_words_sentiments, file_name = "../data/original/tweets_words_sentiments.csv") #save the transformed data results as a csv file
 ```
 
+Next we want to save our map with plotted geolocations. 
+
+```{r save-map-dataset}
+save_as_csv(tweets_map, file_name = "../data/original/map.csv")
+```
+
 ### Log
-The results of this file include one file containing a transformed dataset with twitter and sentiments information, and another file with a map of the USA with the frequency of biased tweets in each region. 
+
+The results of this file include one file containing a transformed dataset with twitter and sentiments information, and another file with a map of the USA with the frequency of biased tweets in each region.
 
 ### Session
 
-<details><summary>View session information</summary>
+<details>
+
+<summary>
+
+View session information
+
+</summary>
 
 ```{r, child="_session-info.Rmd"}
 ```

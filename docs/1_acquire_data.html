@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2021-11-02" />
+<meta name="date" content="2021-11-30" />
 
 <title>Acquire data</title>
 
@@ -156,6 +156,28 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -488,7 +510,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Acquire data</h1>
-<h4 class="date">2021-11-02</h4>
+<h4 class="date">2021-11-30</h4>
 
 </div>
 
@@ -498,12 +520,12 @@ div.tocify {
 <p>This section provides an overview of the process of acquiring data for exploratory analysis. It is important for this process to be communicable so the research is reproducible and individuals can build on these methods in the future.</p>
 <div id="description" class="section level3">
 <h3>Description</h3>
-<p>The aim of this script is to show how we captured Twitter data to explore the prevalence and geolocations of linguistic biases.</p>
+<p>The aim of this script is to show how we captured Twitter data to explore the prevalence and popularity of linguistic biases.</p>
 </div>
 </div>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
-<p>The packages needed for acquiring data are shown in the code below. For example, rtweets helps us get twitter data in real time, as well as the geographic location of the tweets, and tidyverse includes many functions necessary for data analysis.</p>
+<p>The packages needed for acquiring data are shown in the code below. For example, rtweets helps us get twitter data in real time, as well as the geographic location of the tweets, and tidyverse includes many functions necessary for data analysis <span class="citation">(<span>“6. Control Statements, Custom Functions, and Iteration,”</span> n.d.)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtweet)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code></pre></div>
@@ -512,8 +534,7 @@ div.tocify {
 </div>
 <div id="run" class="section level2">
 <h2>Run</h2>
-<p>This section provides an overview of exactly how the data was acquired and organized.
-First, we create a vector of terms that reflect linguistic biases, and call it biased_terms.</p>
+<p>This section provides an overview of exactly how the data was acquired and organized. First, we create a vector of terms that reflect linguistic biases, and call it biased_terms.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>biased_terms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;no idea what he&#39;s saying&quot;</span>, <span class="st">&quot;no idea what she&#39;s saying&quot;</span>, <span class="st">&quot;weird accent&quot;</span>, <span class="st">&quot;thick accent&quot;</span>, <span class="st">&quot;bad accent&quot;</span>, <span class="st">&quot;native speaker&quot;</span>, <span class="st">&quot;bad english&quot;</span>, <span class="st">&quot;black english&quot;</span>, <span class="st">&quot;can&#39;t understand him&quot;</span>, <span class="st">&quot;can&#39;t understand her&quot;</span>, <span class="st">&quot;slang&quot;</span>, <span class="st">&quot;non-native speaker&quot;</span>, <span class="st">&quot;hard to understand&quot;</span>, <span class="st">&quot;language barrier&quot;</span>, <span class="st">&quot;barely speaks english&quot;</span>, <span class="st">&quot;Does have an accent&quot;</span>) </span></code></pre></div>
 <p>Now we create the term_search custom function so we can search for our biased terms in Twitter data.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>term_search <span class="ot">&lt;-</span> </span>
@@ -575,8 +596,13 @@ First, we create a vector of terms that reflect linguistic biases, and call it b
 <p>The output of this code shows us a random sample of tweets containing the biased terms that hint at discriminatory language in tweets. Then the counts of each biased term will appear in a table, and we have another large table with 93 variables describing the tweets in which the biased terms appear.</p>
 </div>
 </div>
-<div id="references" class="section level2">
+<div id="references" class="section level2 unnumbered">
 <h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-6.contr" class="csl-entry">
+<span>“6. Control Statements, Custom Functions, and Iteration.”</span> n.d. <a href="https://lin380.github.io/tadr/articles/recipe_6.html">https://lin380.github.io/tadr/articles/recipe_6.html</a>.
+</div>
+</div>
 </div>
 
 

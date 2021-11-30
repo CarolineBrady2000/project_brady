@@ -7,15 +7,15 @@ biblio-style: apalike
 
 ## About
 
-This section provides an overview of the process of acquiring data for exploratory analysis. It is important for this process to be communicable so the research is reproducible and individuals can build on these methods in the future. 
+This section provides an overview of the process of acquiring data for exploratory analysis. It is important for this process to be communicable so the research is reproducible and individuals can build on these methods in the future.
 
 ### Description
 
-The aim of this script is to show how we captured Twitter data to explore the prevalence and geolocations of linguistic biases.
+The aim of this script is to show how we captured Twitter data to explore the prevalence and popularity of linguistic biases.
 
 ## Setup
 
-The packages needed for acquiring data are shown in the code below. For example, rtweets helps us get twitter data in real time, as well as the geographic location of the tweets, and tidyverse includes many functions necessary for data analysis.
+The packages needed for acquiring data are shown in the code below. For example, rtweets helps us get twitter data in real time, as well as the geographic location of the tweets, and tidyverse includes many functions necessary for data analysis [@6.contr].
 
 ```{r load-important-packages}
 library(rtweet)
@@ -23,19 +23,22 @@ library(tidyverse)
 library(purrr)
 ```
 
-Now we load our student token from Twitter into R so we are able to access and acquire Twitter data. 
+Now we load our student token from Twitter into R so we are able to access and acquire Twitter data.
+
 ```{r load-student-token-for-Twitter-data}
 student_token <- read_rds("student_token.rds") # path to the student_token.rds file
 ```
 
 ## Run
-This section provides an overview of exactly how the data was acquired and organized. 
-First, we create a vector of terms that reflect linguistic biases, and call it biased_terms. 
+
+This section provides an overview of exactly how the data was acquired and organized. First, we create a vector of terms that reflect linguistic biases, and call it biased_terms.
+
 ```{r create-vector-of-biased-terms}
 biased_terms <- c("no idea what he's saying", "no idea what she's saying", "weird accent", "thick accent", "bad accent", "native speaker", "bad english", "black english", "can't understand him", "can't understand her", "slang", "non-native speaker", "hard to understand", "language barrier", "barely speaks english", "Does have an accent") 
 ```
 
 Now we create the term_search custom function so we can search for our biased terms in Twitter data.
+
 ```{r create-term_search-function}
 term_search <- 
   function(search_term, n = 100) {
@@ -56,8 +59,7 @@ term_search <-
   }
 ```
 
-
-Now we collect the twitter data with our custom term_search function to find a large sample of tweets containing our biased terms. 
+Now we collect the twitter data with our custom term_search function to find a large sample of tweets containing our biased terms.
 
 ```{r collect-500-tweets-and-count-frequency, eval=FALSE}
 results <- 
@@ -97,13 +99,14 @@ results %>%
 ```
 
 ## Finalize
-Now that we collected our data from twitter, we want to save it to a csv file in our directory. Our results showed 4542 observations with 93 variables, and this data will be curated into a useful table in the next step. 
+
+Now that we collected our data from twitter, we want to save it to a csv file in our directory. Our results showed 4542 observations with 93 variables, and this data will be curated into a useful table in the next step.
+
 ```{r save-as-csv-file, eval=FALSE}
 save_as_csv(results, file_name = "../data/original/bias_terms.csv") #save the data results as a csv file 
 ```
 
 ### Log
-
 The output of this code shows us a random sample of tweets containing the biased terms that hint at discriminatory language in tweets. Then the counts of each biased term will appear in a table, and we have another large table with 93 variables describing the tweets in which the biased terms appear.
 
 ```{r cleanup, echo=FALSE}

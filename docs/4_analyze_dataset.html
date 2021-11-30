@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2021-11-02" />
+<meta name="date" content="2021-11-30" />
 
 <title>Analyze dataset</title>
 
@@ -156,6 +156,28 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -488,52 +510,139 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Analyze dataset</h1>
-<h4 class="date">2021-11-02</h4>
+<h4 class="date">2021-11-30</h4>
 
 </div>
 
 
 <div id="about" class="section level2">
 <h2>About</h2>
-<div id="description" class="section level3">
-<h3>Description</h3>
-<!-- The aim of this script -->
-</div>
-<div id="usage" class="section level3">
-<h3>Usage</h3>
-<!-- How to run this script: what input it requires and output produced -->
-</div>
+<p>Now that we have acquired, curated, and transformed our data, it is time to analyze it and answer the research questions. In this section, we will first look at our data set of tweets and sentiment and perform a sentiment analysis. Then we will look at our map of biased tweets and determine if there are any geographic patterns with linguistic biases.</p>
 </div>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Script-specific options or packages</span></span></code></pre></div>
+<p>First we need to load the necessary packages into our workspace.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtweet) <span class="co">#for twitter data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#for data manipulation</span></span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.4     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   2.0.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter()  masks stats::filter()
+## x purrr::flatten() masks rtweet::flatten()
+## x dplyr::lag()     masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readtext) <span class="co">#for reading the text file </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext) <span class="co">#for separating rows and columns</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr) <span class="co"># for pretty tables</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor) <span class="co"># cross tabulations</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<p>Then we need to read in our data files from the transform data step. The first one is the data table of tweets and sentiments.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sentiment_data <span class="ot">&lt;-</span> <span class="fu">readtext</span>(<span class="at">file =</span> <span class="st">&quot;../data/original/tweets_words_sentiments.csv&quot;</span>, <span class="at">verbosity =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#read the .run files and suppress warnings </span></span></code></pre></div>
+<p>Now we want to read in our data file with the map of biased tweets.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>biased_tweet_map <span class="ot">&lt;-</span> <span class="fu">readtext</span>(<span class="at">file =</span> <span class="st">&quot;../data/original/&quot;</span>, <span class="at">verbosity =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#read the .run files and suppress warnings </span></span></code></pre></div>
 </div>
 <div id="run" class="section level2">
 <h2>Run</h2>
-<!-- Steps involved in analyzing the data -->
+<div id="sentiment-and-popularity-analysis" class="section level3">
+<h3>Sentiment and Popularity Analysis</h3>
+<p>First, let’s glimpse our dataset to see what we are working with and jog our memory.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(sentiment_data) <span class="co">#preview data</span></span></code></pre></div>
+<pre><code>## Rows: 10,088
+## Columns: 10
+## $ doc_id         &lt;chr&gt; &quot;tweets_words_sentiments.csv.1&quot;, &quot;tweets_words_sentimen…
+## $ text           &lt;chr&gt; &quot;xtwitter_data.csv.2&quot;, &quot;xtwitter_data.csv.2&quot;, &quot;xtwitter…
+## $ text.1         &lt;chr&gt; &quot;x931073275&quot;, &quot;x931073275&quot;, &quot;x931073275&quot;, &quot;x931073275&quot;,…
+## $ favorite_count &lt;int&gt; 0, 0, 0, 0, 0, 4, 55, 55, 0, 0, 0, 0, 0, 0, 48, 48, 0, …
+## $ retweet_count  &lt;int&gt; 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0…
+## $ lat            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ lng            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ search_term    &lt;chr&gt; &quot;no idea what he&#39;s saying&quot;, &quot;no idea what he&#39;s saying&quot;,…
+## $ word           &lt;chr&gt; &quot;decline&quot;, &quot;trump&quot;, &quot;sad&quot;, &quot;sad&quot;, &quot;sad&quot;, &quot;garbage&quot;, &quot;go…
+## $ sentiment      &lt;chr&gt; &quot;negative&quot;, &quot;positive&quot;, &quot;negative&quot;, &quot;negative&quot;, &quot;negati…</code></pre>
+<p>This dataset contains 10,088 rows, corresponding to individual words, and 10 columns, corresponding to variables. The variables we have are the document id, the text of the entire tweet, the favorite count, the retweet count, the geographic location, the search term that the tweet had, the individual word, and the sentiment attached to each word.</p>
+<p>Now, let’s make a table of our data to determine what percent of the words are assigned to a positive or negative sentiment. I would expect the words around biased terms to contain more negative sentiments because bias typically is present in negative contexts. For example, the biased search term “bad accent” has a negative sentiment attached to it because of the word “bad.”</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sentiment_data <span class="sc">%&gt;%</span> <span class="co"># data frame</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(sentiment) <span class="co"># cross-tabulate</span></span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["sentiment"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["percent"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"negative","2":"5728","3":"0.5678033"},{"1":"positive","2":"4360","3":"0.4321967"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
-<div id="finalize" class="section level2">
-<h2>Finalize</h2>
+<p>From this output, we see a slight majority of negative words, 56% negative. Positive words occur less of the time, at 43%. However, since the percentages are relatively close to 50/50, this suggests that biased terms occur in contexts not completely dominated by negative or positive words, but in everyday language.</p>
+<p>Next, let’s look at the popularity of each search term. In everyday language, people may not explicitly say a discriminatory comment, as it is masked by other neutral or even positive words. Such comments may pass unnoticed and gain an audience on social media platforms like Twitter. On Twitter, we can easily see how “liked” or popular a tweet is by the number of people who retweet it. Let’s look at a bar graph of each search term and how many times the tweet with that term was retweeted <span class="citation">(<span>“11. Exploratory Methods: Descriptive and Unsupervised Learning Analysis Methods,”</span> n.d.)</span>. In this case, we’ll want to use our original dataset with each row corresponding to one tweet to account for the fact that some tweets are longer than others.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>twitter_data <span class="ot">&lt;-</span> <span class="fu">readtext</span>(<span class="at">file =</span> <span class="st">&quot;../data/original/twitter_data.csv&quot;</span>, <span class="at">verbosity =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#read the .run files and suppress warnings </span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> twitter_data <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>search_term, <span class="at">y=</span>retweet_count)) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>p1</span></code></pre></div>
+<p><img src="4_analyze_dataset_files/figure-html/make-retweet-barplot-1.png" width="672" /></p>
+<p>From this barplot, we can clearly see that there are some biased terms that are more popular than others based on how often they are retweeted. For example, tweets with the search term A are not retweeted very often, but tweets with the search term B are very popular and retweeted a lot. This may help people be more aware of certain terms that fly under the radar in casual informal conversations or texts, but actually have discriminatory meanings. We can also look for trends in popularity by looking at how many times the tweet was favorited. Here is another barplot where we can see trends in biased terms in tweets that have been favorited.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> twitter_data <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>search_term, <span class="at">y=</span>favorite_count)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>p2</span></code></pre></div>
+<p><img src="4_analyze_dataset_files/figure-html/make-favorite-barplot-1.png" width="672" /></p>
+<p>From this barplot, we can see similar trends where some search terms are favorited more frequently than others. Tweets with the search term C were favorited a lot more frequently than other terms such as D and E.</p>
+<p>So, we have a barplot that shows differences in retweet frequency based on search term, but is this a significant difference? Let’s perform a chi square test to see if there is really a significant impact of the search term on how often it is retweeted.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>retweet_term_tab <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>retweet_count <span class="sc">+</span> search_term, </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> sentiment_data)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(retweet_term_tab)</span></code></pre></div>
+<pre><code>## Warning in stats::chisq.test(x, y, ...): Chi-squared approximation may be
+## incorrect</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>c1<span class="sc">$</span>p.value <span class="sc">&lt;</span> .<span class="dv">05</span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Based on the output from this chi square analysis, there is not a significant effect of search term on how many times the tweet has been retweeted. However, there may be a significant effect of search term on how many times the tweets have been favorited…</p>
+<p>Here we will perform the same analysis, but on favorited tweets</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>favorite_term_tab <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>favorite_count <span class="sc">+</span> search_term, </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> sentiment_data)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(favorite_term_tab)</span></code></pre></div>
+<pre><code>## Warning in stats::chisq.test(x, y, ...): Chi-squared approximation may be
+## incorrect</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>c1<span class="sc">$</span>p.value <span class="sc">&lt;</span> .<span class="dv">05</span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Based on this output, we see that there is a significant effect of search term on the number of times a tweet is favorited. Therefore, there are certain search terms that are significantly more popular than others.</p>
+</div>
+<div id="geographic-analysis" class="section level3">
+<h3>Geographic Analysis</h3>
+<p>Let’s look at our map and see if there are trends where certain biased terms are more common in certain regions. To recap, we have a map of the United States and the geolocation of each tweet plotted in a color corresponding to the biased search term that was contained in that tweet. This could help us visualize if certain biases are more prevalent in certain regions of the country. Understanding where biases are more common may help us begin to eliminate linguistic discrimination by targeting certain regions with certain information.</p>
+<p>xxx insert map?</p>
+<p>This map shows that…</p>
+</div>
 <div id="log" class="section level3">
 <h3>Log</h3>
-<!-- Any description that will be helpful to understand the results of this script and how it contributes to the aims of the project -->
+<p>The results of this file include an analysis of the sentiment and geolocations of a sample of tweets containing biased terms. There are no file outputs.</p>
 </div>
 <div id="session" class="section level3">
 <h3>Session</h3>
-<details>
-<summary>
-View session information
+<p>View session information</p>
 </summary>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["package"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ondiskversion"],"name":[2],"type":["chr"],"align":["left"]},{"label":["loadedversion"],"name":[3],"type":["chr"],"align":["left"]},{"label":["path"],"name":[4],"type":["chr"],"align":["left"]},{"label":["loadedpath"],"name":[5],"type":["chr"],"align":["left"]},{"label":["attached"],"name":[6],"type":["lgl"],"align":["right"]},{"label":["is_base"],"name":[7],"type":["lgl"],"align":["right"]},{"label":["date"],"name":[8],"type":["chr"],"align":["left"]},{"label":["source"],"name":[9],"type":["chr"],"align":["left"]},{"label":["md5ok"],"name":[10],"type":["lgl"],"align":["right"]},{"label":["library"],"name":[11],"type":["fct"],"align":["left"]}],"data":[{"1":"citr","2":"0.3.2","3":"0.3.2","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/citr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/citr","6":"TRUE","7":"FALSE","8":"2021-08-20","9":"Github (crsh/citr@0e8243d)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"citr"},{"1":"dplyr","2":"1.0.7","3":"1.0.7","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/dplyr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/dplyr","6":"TRUE","7":"FALSE","8":"2021-06-18","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"dplyr"},{"1":"forcats","2":"0.5.1","3":"0.5.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/forcats","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/forcats","6":"TRUE","7":"FALSE","8":"2021-01-27","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"forcats"},{"1":"ggplot2","2":"3.3.5","3":"3.3.5","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/ggplot2","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/ggplot2","6":"TRUE","7":"FALSE","8":"2021-06-25","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"ggplot2"},{"1":"knitr","2":"1.34","3":"1.34","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/knitr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/knitr","6":"TRUE","7":"FALSE","8":"2021-09-09","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"knitr"},{"1":"magrittr","2":"2.0.1","3":"2.0.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/magrittr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/magrittr","6":"TRUE","7":"FALSE","8":"2020-11-17","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"magrittr"},{"1":"pacman","2":"0.5.1","3":"0.5.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/pacman","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/pacman","6":"TRUE","7":"FALSE","8":"2019-03-11","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"pacman"},{"1":"purrr","2":"0.3.4","3":"0.3.4","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/purrr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/purrr","6":"TRUE","7":"FALSE","8":"2020-04-17","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"purrr"},{"1":"readr","2":"2.0.1","3":"2.0.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readr","6":"TRUE","7":"FALSE","8":"2021-08-10","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"readr"},{"1":"readtext","2":"0.81","3":"0.81","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readtext","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readtext","6":"TRUE","7":"FALSE","8":"2021-07-14","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"readtext"},{"1":"rmarkdown","2":"2.11","3":"2.11","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/rmarkdown","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/rmarkdown","6":"TRUE","7":"FALSE","8":"2021-09-14","9":"CRAN (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"rmarkdown"},{"1":"rtweet","2":"0.7.0","3":"0.7.0","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/rtweet","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/rtweet","6":"TRUE","7":"FALSE","8":"2020-01-08","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"rtweet"},{"1":"sessioninfo","2":"1.1.1","3":"1.1.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/sessioninfo","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/sessioninfo","6":"TRUE","7":"FALSE","8":"2018-11-05","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"sessioninfo"},{"1":"stringr","2":"1.4.0","3":"1.4.0","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/stringr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/stringr","6":"TRUE","7":"FALSE","8":"2019-02-10","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"stringr"},{"1":"tibble","2":"3.1.4","3":"3.1.4","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tibble","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tibble","6":"TRUE","7":"FALSE","8":"2021-08-25","9":"CRAN (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tibble"},{"1":"tidyr","2":"1.1.3","3":"1.1.3","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyr","6":"TRUE","7":"FALSE","8":"2021-03-03","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tidyr"},{"1":"tidytext","2":"0.3.1","3":"0.3.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidytext","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidytext","6":"TRUE","7":"FALSE","8":"2021-04-10","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tidytext"},{"1":"tidyverse","2":"1.3.1","3":"1.3.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyverse","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyverse","6":"TRUE","7":"FALSE","8":"2021-04-15","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tidyverse"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["package"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ondiskversion"],"name":[2],"type":["chr"],"align":["left"]},{"label":["loadedversion"],"name":[3],"type":["chr"],"align":["left"]},{"label":["path"],"name":[4],"type":["chr"],"align":["left"]},{"label":["loadedpath"],"name":[5],"type":["chr"],"align":["left"]},{"label":["attached"],"name":[6],"type":["lgl"],"align":["right"]},{"label":["is_base"],"name":[7],"type":["lgl"],"align":["right"]},{"label":["date"],"name":[8],"type":["chr"],"align":["left"]},{"label":["source"],"name":[9],"type":["chr"],"align":["left"]},{"label":["md5ok"],"name":[10],"type":["lgl"],"align":["right"]},{"label":["library"],"name":[11],"type":["fct"],"align":["left"]}],"data":[{"1":"dplyr","2":"1.0.7","3":"1.0.7","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/dplyr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/dplyr","6":"TRUE","7":"FALSE","8":"2021-06-18","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"dplyr"},{"1":"forcats","2":"0.5.1","3":"0.5.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/forcats","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/forcats","6":"TRUE","7":"FALSE","8":"2021-01-27","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"forcats"},{"1":"ggplot2","2":"3.3.5","3":"3.3.5","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/ggplot2","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/ggplot2","6":"TRUE","7":"FALSE","8":"2021-06-25","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"ggplot2"},{"1":"janitor","2":"2.1.0","3":"2.1.0","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/janitor","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/janitor","6":"TRUE","7":"FALSE","8":"2021-01-05","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"janitor"},{"1":"knitr","2":"1.34","3":"1.34","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/knitr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/knitr","6":"TRUE","7":"FALSE","8":"2021-09-09","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"knitr"},{"1":"purrr","2":"0.3.4","3":"0.3.4","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/purrr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/purrr","6":"TRUE","7":"FALSE","8":"2020-04-17","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"purrr"},{"1":"readr","2":"2.0.1","3":"2.0.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readr","6":"TRUE","7":"FALSE","8":"2021-08-10","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"readr"},{"1":"readtext","2":"0.81","3":"0.81","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readtext","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/readtext","6":"TRUE","7":"FALSE","8":"2021-07-14","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"readtext"},{"1":"rtweet","2":"0.7.0","3":"0.7.0","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/rtweet","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/rtweet","6":"TRUE","7":"FALSE","8":"2020-01-08","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"rtweet"},{"1":"stringr","2":"1.4.0","3":"1.4.0","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/stringr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/stringr","6":"TRUE","7":"FALSE","8":"2019-02-10","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"stringr"},{"1":"tibble","2":"3.1.4","3":"3.1.4","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tibble","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tibble","6":"TRUE","7":"FALSE","8":"2021-08-25","9":"CRAN (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tibble"},{"1":"tidyr","2":"1.1.3","3":"1.1.3","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyr","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyr","6":"TRUE","7":"FALSE","8":"2021-03-03","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tidyr"},{"1":"tidytext","2":"0.3.1","3":"0.3.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidytext","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidytext","6":"TRUE","7":"FALSE","8":"2021-04-10","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tidytext"},{"1":"tidyverse","2":"1.3.1","3":"1.3.1","4":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyverse","5":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1/tidyverse","6":"TRUE","7":"FALSE","8":"2021-04-15","9":"RSPM (R 4.1.0)","10":"NA","11":"/cloud/lib/x86_64-pc-linux-gnu-library/4.1","_rn_":"tidyverse"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </details>
 </div>
 </div>
-<div id="references" class="section level2">
+<div id="references" class="section level2 unnumbered">
 <h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-11.expl" class="csl-entry">
+<span>“11. Exploratory Methods: Descriptive and Unsupervised Learning Analysis Methods.”</span> n.d. <a href="https://lin380.github.io/tadr/articles/recipe_11.html">https://lin380.github.io/tadr/articles/recipe_11.html</a>.
+</div>
+</div>
 </div>
 
 

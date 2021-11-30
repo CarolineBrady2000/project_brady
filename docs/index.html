@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2021-11-02" />
+<meta name="date" content="2021-11-29" />
 
 <title>Exploring Linguistic Biases</title>
 
@@ -156,6 +156,28 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -488,22 +510,20 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Exploring Linguistic Biases</h1>
-<h4 class="date">2021-11-02</h4>
+<h4 class="date">2021-11-29</h4>
 
 </div>
 
 
-<div id="project-title" class="section level2">
-<h2>Project title</h2>
-<p>Exploring Linguistic Biases with Twitter</p>
+<div id="exploring-linguistic-biases-with-twitter" class="section level1">
+<h1>Exploring Linguistic Biases with Twitter</h1>
 <div id="research-area-and-problem" class="section level3">
 <h3>Research area and problem</h3>
-<p>The research area I am interested in learning more about is sociolinguistics, which is the study of language in society and how it interacts with characteristics like gender, perceptions, attitudes, and geographic region. A current topic of debate that I would like to address is where linguistic attitudes and biases are more prevalent in the United States, and the characteristics of these regions. Linguistic discrimination affects many individuals in the United States because they are treated differently based on how they speak. There is still information to be learned about the patterns and origins of linguistic discrimination, in hopes of figuring out what we can do to prevent it.</p>
+<p>The research area I am interested in learning more about is sociolinguistics, the study of language in society and how it interacts with characteristics such as gender, perceptions, attitudes, and geographic region <span class="citation">(<span>“Sociolinguistics | Linguistic Society of America,”</span> n.d.)</span>. A current topic of debate that I would like to address is which linguistic attitudes and biases are more prevalent in the United States and where do they occur. Linguistic discrimination affects many individuals in the United States because they are treated differently based on how they speak. There is still information to be learned about the patterns and origins of linguistic discrimination, in hopes of eventually figuring out what we can do to prevent it.</p>
 </div>
 <div id="research-aim-and-question" class="section level3">
 <h3>Research aim and question</h3>
-<p>The aim of this research will be to use exploratory data analysis to investigate the prevalence of linguistic discrimination on social media in the United States. I will investigate and analyze discriminatory language on Twitter in hopes of understanding where certain biases are more prevalent and the characteristics of these regions in the United States. There are two questions I would like to address. In which regions of the United States are linguistic biases more prevalent, and do these regions have higher or lower average education levels?</p>
-</div>
+<p>The aim of this research will be to use exploratory data analysis to investigate the prevalence of linguistic discrimination on social media in the United States. I will investigate and analyze discriminatory language on Twitter in hopes of understanding where certain biases are more prevalent, which biased terms are used most frequently, if the terms are used in a positive or negative context, and how popular these biased tweets are on social media.</p>
 </div>
 <div id="reproduce" class="section level2">
 <h2>Reproduce</h2>
@@ -511,10 +531,10 @@ div.tocify {
 <h3>Session</h3>
 <details>
 <summary>
-View session information
+<p>View session information</p>
 </summary>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sessioninfo<span class="sc">::</span><span class="fu">session_info</span>()</span></code></pre></div>
-<pre><code>## ─ Session info ──────────────────────────────────────────────────────────────────────
+<pre><code>## ─ Session info ─────────────────────────────────────────────────────────────────────────
 ##  setting  value                       
 ##  version  R version 4.1.0 (2021-05-18)
 ##  os       Ubuntu 20.04.3 LTS          
@@ -524,9 +544,9 @@ View session information
 ##  collate  C.UTF-8                     
 ##  ctype    C.UTF-8                     
 ##  tz       UTC                         
-##  date     2021-11-02                  
+##  date     2021-11-29                  
 ## 
-## ─ Packages ──────────────────────────────────────────────────────────────────────────
+## ─ Packages ─────────────────────────────────────────────────────────────────────────────
 ##  package     * version date       lib source                    
 ##  assertthat    0.2.1   2019-03-21 [1] RSPM (R 4.1.0)            
 ##  backports     1.2.1   2020-12-09 [1] RSPM (R 4.1.0)            
@@ -592,6 +612,7 @@ View session information
 ##  reprex        2.0.1   2021-08-05 [1] RSPM (R 4.1.0)            
 ##  rlang         0.4.11  2021-04-30 [1] RSPM (R 4.1.0)            
 ##  rmarkdown   * 2.11    2021-09-14 [1] CRAN (R 4.1.0)            
+##  rsconnect     0.8.24  2021-08-05 [1] RSPM (R 4.1.0)            
 ##  rstudioapi    0.13    2020-11-12 [1] RSPM (R 4.1.0)            
 ##  rtweet      * 0.7.0   2020-01-08 [1] RSPM (R 4.1.0)            
 ##  rvest         1.0.1   2021-07-26 [1] RSPM (R 4.1.0)            
@@ -623,8 +644,14 @@ View session information
 </details>
 </div>
 </div>
-<div id="references" class="section level2">
+<div id="references" class="section level2 unnumbered">
 <h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-sociolin" class="csl-entry">
+<span>“Sociolinguistics | Linguistic Society of America.”</span> n.d. <a href="https://www.linguisticsociety.org/resource/sociolinguistics">https://www.linguisticsociety.org/resource/sociolinguistics</a>.
+</div>
+</div>
+</div>
 </div>
 
 

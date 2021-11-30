@@ -7,34 +7,127 @@ biblio-style: apalike
 
 ## About
 
-### Description
-
-<!-- The aim of this script -->
-
-### Usage
-
-<!-- How to run this script: what input it requires and output produced -->
+Now that we have acquired, curated, and transformed our data, it is time to analyze it and answer the research questions. In this section, we will first look at our data set of tweets and sentiment and perform a sentiment analysis. Then we will look at our map of biased tweets and determine if there are any geographic patterns with linguistic biases.
 
 ## Setup
-
+First we need to load the necessary packages into our workspace.
 ```{r setup}
-# Script-specific options or packages
+library(rtweet) #for twitter data
+library(tidyverse) #for data manipulation
+library(readtext) #for reading the text file 
+library(tidytext) #for separating rows and columns
+library(knitr) # for pretty tables
+library(janitor) # cross tabulations
+```
 
+Then we need to read in our data files from the transform data step. The first one is the data table of tweets and sentiments.
+
+```{r read-in-transformed-data}
+sentiment_data <- readtext(file = "../data/original/tweets_words_sentiments.csv", verbosity = 0) %>%
+  as_tibble()
+  #read the .run files and suppress warnings 
+```
+
+Now we want to read in our data file with the map of biased tweets.
+
+```{r read-in-data-map}
+biased_tweet_map <- readtext(file = "../data/original/", verbosity = 0) %>%
+  as_tibble()
+  #read the .run files and suppress warnings 
 ```
 
 ## Run
 
-<!-- Steps involved in analyzing the data -->
+### Sentiment and Popularity Analysis
 
-## Finalize
+First, let's glimpse our dataset to see what we are working with and jog our memory.
+
+```{r glimpse-sentiment-data}
+glimpse(sentiment_data) #preview data
+```
+
+This dataset contains 10,088 rows, corresponding to individual words, and 10 columns, corresponding to variables. The variables we have are the document id, the text of the entire tweet, the favorite count, the retweet count, the geographic location, the search term that the tweet had, the individual word, and the sentiment attached to each word.
+
+Now, let's make a table of our data to determine what percent of the words are assigned to a positive or negative sentiment. I would expect the words around biased terms to contain more negative sentiments because bias typically is present in negative contexts. For example, the biased search term "bad accent" has a negative sentiment attached to it because of the word "bad".
+
+```{r cross-tabulate}
+sentiment_data %>% # data frame
+  tabyl(sentiment) # cross-tabulate
+```
+
+From this output, we see a slight majority of negative words, 56% negative. Positive words occur less of the time, at 43%. However, since the percentages are relatively close to 50/50, this suggests that biased terms occur in contexts not completely dominated by negative or positive words, but in everyday language.
+
+Next, let's look at the popularity of each search term. In everyday language, people may not explicitly say a discriminatory comment, as it is masked by other neutral or even positive words. Such comments may pass unnoticed and gain an audience on social media platforms like Twitter. On Twitter, we can easily see how "liked" or popular a tweet is by the number of people who retweet it. Let's look at a bar graph of each search term and how many times the tweet with that term was retweeted [@11.expl]. In this case, we'll want to use our original dataset with each row corresponding to one tweet to account for the fact that some tweets are longer than others.
+
+```{r read-in-original-data}
+twitter_data <- readtext(file = "../data/original/twitter_data.csv", verbosity = 0) %>%
+  as_tibble()
+  #read the .run files and suppress warnings 
+```
+
+```{r make-retweet-barplot}
+p1 <- twitter_data %>%
+  ggplot(aes(x=search_term, y=retweet_count)) +
+  geom_bar(stat="identity")
+p1
+```
+
+From this barplot, we can clearly see that there are some biased terms that are more popular than others based on how often they are retweeted. For example, tweets with the search term A are not retweeted very often, but tweets with the search term B are very popular and retweeted a lot. This may help people be more aware of certain terms that fly under the radar in casual informal conversations or texts, but actually have discriminatory meanings. We can also look for trends in popularity by looking at how many times the tweet was favorited. Here is another barplot where we can see trends in biased terms in tweets that have been favorited.
+
+```{r make-favorite-barplot}
+p2 <- twitter_data %>%
+  ggplot(aes(x=search_term, y=favorite_count)) +
+  geom_bar(stat="identity")
+p2
+```
+
+From this barplot, we can see similar trends where some search terms are favorited more frequently than others. Tweets with the search term C were favorited a lot more frequently than other terms such as D and E.
+
+So, we have a barplot that shows differences in retweet frequency based on search term, but is this a significant difference? Let's perform a chi square test to see if there is really a significant impact of the search term on how often it is retweeted.
+
+```{r create-cross-tabulation-retweets}
+retweet_term_tab <- xtabs(~retweet_count + search_term, 
+      data = sentiment_data)
+```
+
+```{r}
+c1 <- chisq.test(retweet_term_tab)
+c1$p.value < .05
+```
+
+Based on the output from this chi square analysis, there is not a significant effect of search term on how many times the tweet has been retweeted. However, there may be a significant effect of search term on how many times the tweets have been favorited...
+
+Here we will perform the same analysis, but on favorited tweets
+
+```{r create-cross-tabulation-favorites}
+favorite_term_tab <- xtabs(~favorite_count + search_term, 
+      data = sentiment_data)
+```
+
+```{r}
+c1 <- chisq.test(favorite_term_tab)
+c1$p.value < .05
+```
+
+Based on this output, we see that there is a significant effect of search term on the number of times a tweet is favorited. Therefore, there are certain search terms that are significantly more popular than others.
+
+### Geographic Analysis
+
+Let's look at our map and see if there are trends where certain biased terms are more common in certain regions. To recap, we have a map of the United States and the geolocation of each tweet plotted in a color corresponding to the biased search term that was contained in that tweet. This could help us visualize if certain biases are more prevalent in certain regions of the country. Understanding where biases are more common may help us begin to eliminate linguistic discrimination by targeting certain regions with certain information.
+
+xxx insert map?
+
+This map shows that...
 
 ### Log
 
-<!-- Any description that will be helpful to understand the results of this script and how it contributes to the aims of the project -->
+The results of this file include an analysis of the sentiment and geolocations of a sample of tweets containing biased terms. There are no file outputs.
 
 ### Session
 
-<details><summary>View session information</summary>
+View session information
+
+</summary>
 
 ```{r, child="_session-info.Rmd"}
 ```
