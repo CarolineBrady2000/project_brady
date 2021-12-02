@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-02" />
 
 <title>Curate dataset</title>
 
@@ -510,7 +510,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Curate dataset</h1>
-<h4 class="date">2021-11-30</h4>
+<h4 class="date">2021-12-02</h4>
 
 </div>
 
@@ -537,100 +537,100 @@ div.tocify {
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(biased_tweets) <span class="co">#glimpse data</span></span></code></pre></div>
 <pre><code>## Rows: 4,479
 ## Columns: 94
-## $ doc_id                  &lt;chr&gt; &quot;bias_terms.csv.1&quot;, &quot;bias_terms.csv.2&quot;, &quot;bias_terms.cs…
-## $ text                    &lt;chr&gt; &quot;x212590631&quot;, &quot;x931073275&quot;, &quot;x2549616986&quot;, &quot;x133346903…
-## $ status_id               &lt;chr&gt; &quot;x1452965966909001737&quot;, &quot;x1452947769799413765&quot;, &quot;x1452…
-## $ created_at              &lt;chr&gt; &quot;2021-10-26 11:50:55&quot;, &quot;2021-10-26 10:38:37&quot;, &quot;2021-10…
-## $ screen_name             &lt;chr&gt; &quot;WellReadDan&quot;, &quot;harleysolberg1&quot;, &quot;ashamedaustrali&quot;, &quot;G…
-## $ text.1                  &lt;chr&gt; &quot;@JohnJHarwood He&#39;s saying that he has no idea what hi…
-## $ source                  &lt;chr&gt; &quot;Twitter for Android&quot;, &quot;Twitter for Android&quot;, &quot;Twitter…
-## $ display_text_width      &lt;int&gt; 56, 163, 230, 136, 259, 105, 263, 73, 146, 206, 94, 26…
-## $ reply_to_status_id      &lt;chr&gt; &quot;x1452807833381216260&quot;, &quot;&quot;, &quot;&quot;, &quot;x1452631715336306693&quot;…
-## $ reply_to_user_id        &lt;chr&gt; &quot;x259395895&quot;, &quot;&quot;, &quot;&quot;, &quot;x1019932214224654338&quot;, &quot;x141909…
-## $ reply_to_screen_name    &lt;chr&gt; &quot;JohnJHarwood&quot;, &quot;&quot;, &quot;&quot;, &quot;MoreForYou_CLE&quot;, &quot;jbouie&quot;, &quot;j…
-## $ is_quote                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
-## $ is_retweet              &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
-## $ favorite_count          &lt;int&gt; 0, 0, 4, 55, 0, 1, 0, 1, 48, 0, 0, 1, 2, 0, 2, 1, 1, 0…
-## $ retweet_count           &lt;int&gt; 0, 0, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-## $ quote_count             &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ reply_count             &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ hashtags                &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;auspol&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, …
-## $ symbols                 &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ urls_url                &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ urls_t.co               &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ urls_expanded_url       &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ media_url               &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;http:…
-## $ media_t.co              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https…
-## $ media_expanded_url      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https…
-## $ media_type              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;photo…
-## $ ext_media_url           &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;http:…
-## $ ext_media_t.co          &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https…
-## $ ext_media_expanded_url  &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https…
-## $ ext_media_type          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ mentions_user_id        &lt;chr&gt; &quot;x259395895&quot;, &quot;&quot;, &quot;x12283282&quot;, &quot;x1019932214224654338 x…
-## $ mentions_screen_name    &lt;chr&gt; &quot;JohnJHarwood&quot;, &quot;&quot;, &quot;Scott&quot;, &quot;MoreForYou_CLE DanGrazia…
-## $ lang                    &lt;chr&gt; &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, …
-## $ quoted_status_id        &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ quoted_text             &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ quoted_created_at       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ quoted_source           &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ quoted_favorite_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ quoted_retweet_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ quoted_user_id          &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ quoted_screen_name      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ quoted_name             &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ quoted_followers_count  &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ quoted_friends_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ quoted_statuses_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ quoted_location         &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ quoted_description      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ quoted_verified         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_status_id       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_text            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_created_at      &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_source          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_favorite_count  &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_retweet_count   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_user_id         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_screen_name     &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_name            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_followers_count &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_friends_count   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_statuses_count  &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_location        &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_description     &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ retweet_verified        &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ place_url               &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ place_name              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ place_full_name         &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ place_type              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ country                 &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ country_code            &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
-## $ geo_coords              &lt;chr&gt; &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, …
-## $ coords_coords           &lt;chr&gt; &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, …
-## $ bbox_coords             &lt;chr&gt; &quot;NA NA NA NA NA NA NA NA&quot;, &quot;NA NA NA NA NA NA NA NA&quot;, …
-## $ status_url              &lt;chr&gt; &quot;https://twitter.com/WellReadDan/status/14529659669090…
-## $ name                    &lt;chr&gt; &quot;Danny&quot;, &quot;Harley Solberg&quot;, &quot;casandra angela 💉💉&quot;, &quot;Re…
-## $ location                &lt;chr&gt; &quot;Ohio&quot;, &quot;Brew City, WI&quot;, &quot;Australia&quot;, &quot;United States&quot;,…
-## $ description             &lt;chr&gt; &quot;(Slightly more than) middle-aged truck driver who bel…
-## $ url                     &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://t.co/IeN6myJzAY&quot;, &quot;&quot;, &quot;&quot;,…
-## $ protected               &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
-## $ followers_count         &lt;int&gt; 244, 149, 1372, 116, 57, 6, 92, 7180, 5004, 207, 250, …
-## $ friends_count           &lt;int&gt; 851, 296, 652, 494, 296, 0, 372, 7882, 693, 788, 372, …
-## $ listed_count            &lt;int&gt; 0, 1, 66, 1, 3, 0, 5, 2, 157, 1, 6, 1, 11, 0, 2, 1, 1,…
-## $ statuses_count          &lt;int&gt; 6936, 7236, 65127, 8062, 8941, 2912, 3662, 22884, 2877…
-## $ favourites_count        &lt;int&gt; 123447, 22358, 106415, 6572, 24021, 210, 2371, 51355, …
-## $ account_created_at      &lt;chr&gt; &quot;2010-11-06 14:15:33&quot;, &quot;2012-11-07 02:48:27&quot;, &quot;2014-06…
-## $ verified                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…
-## $ profile_url             &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://t.co/IeN6myJzAY&quot;, &quot;&quot;, &quot;&quot;,…
-## $ profile_expanded_url    &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;http://www.idonthaveawebsite.com&quot;…
-## $ account_lang            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ profile_banner_url      &lt;chr&gt; &quot;https://pbs.twimg.com/profile_banners/212590631/15290…
-## $ profile_background_url  &lt;chr&gt; &quot;http://abs.twimg.com/images/themes/theme1/bg.png&quot;, &quot;h…
-## $ profile_image_url       &lt;chr&gt; &quot;http://pbs.twimg.com/profile_images/14062768938386595…
-## $ lat                     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ lng                     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ search_term             &lt;chr&gt; &quot;no idea what he&#39;s saying&quot;, &quot;no idea what he&#39;s saying&quot;…</code></pre>
+## $ doc_id                  &lt;chr&gt; &quot;bias_terms.csv.1&quot;, &quot;bias_terms.csv.2&quot;, &quot;bias_terms.csv.3&quot;, &quot;bias_terms.…
+## $ text                    &lt;chr&gt; &quot;x212590631&quot;, &quot;x931073275&quot;, &quot;x2549616986&quot;, &quot;x1333469032218025988&quot;, &quot;x105…
+## $ status_id               &lt;chr&gt; &quot;x1452965966909001737&quot;, &quot;x1452947769799413765&quot;, &quot;x1452803574849626113&quot;, …
+## $ created_at              &lt;chr&gt; &quot;2021-10-26 11:50:55&quot;, &quot;2021-10-26 10:38:37&quot;, &quot;2021-10-26 01:05:38&quot;, &quot;20…
+## $ screen_name             &lt;chr&gt; &quot;WellReadDan&quot;, &quot;harleysolberg1&quot;, &quot;ashamedaustrali&quot;, &quot;Gallant_Remy&quot;, &quot;ire…
+## $ text.1                  &lt;chr&gt; &quot;@JohnJHarwood He&#39;s saying that he has no idea what his staff is doing.&quot;…
+## $ source                  &lt;chr&gt; &quot;Twitter for Android&quot;, &quot;Twitter for Android&quot;, &quot;Twitter for iPad&quot;, &quot;Twitt…
+## $ display_text_width      &lt;int&gt; 56, 163, 230, 136, 259, 105, 263, 73, 146, 206, 94, 261, 88, 272, 151, 2…
+## $ reply_to_status_id      &lt;chr&gt; &quot;x1452807833381216260&quot;, &quot;&quot;, &quot;&quot;, &quot;x1452631715336306693&quot;, &quot;x14526330773317…
+## $ reply_to_user_id        &lt;chr&gt; &quot;x259395895&quot;, &quot;&quot;, &quot;&quot;, &quot;x1019932214224654338&quot;, &quot;x14190948&quot;, &quot;x1289713506&quot;…
+## $ reply_to_screen_name    &lt;chr&gt; &quot;JohnJHarwood&quot;, &quot;&quot;, &quot;&quot;, &quot;MoreForYou_CLE&quot;, &quot;jbouie&quot;, &quot;jacobinfante24&quot;, &quot;O…
+## $ is_quote                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…
+## $ is_retweet              &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…
+## $ favorite_count          &lt;int&gt; 0, 0, 4, 55, 0, 1, 0, 1, 48, 0, 0, 1, 2, 0, 2, 1, 1, 0, 6, 0, 7, 0, 0, 0…
+## $ retweet_count           &lt;int&gt; 0, 0, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, …
+## $ quote_count             &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ reply_count             &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ hashtags                &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;auspol&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;…
+## $ symbols                 &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, …
+## $ urls_url                &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;twitter.com/Joe…
+## $ urls_t.co               &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://t.co/z9…
+## $ urls_expanded_url       &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://twitter…
+## $ media_url               &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;http://pbs.twimg.com/me…
+## $ media_t.co              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://t.co/lznVfBFFAK…
+## $ media_expanded_url      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://twitter.com/OVO…
+## $ media_type              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;photo&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;,…
+## $ ext_media_url           &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;http://pbs.twimg.com/me…
+## $ ext_media_t.co          &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://t.co/lznVfBFFAK…
+## $ ext_media_expanded_url  &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://twitter.com/OVO…
+## $ ext_media_type          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ mentions_user_id        &lt;chr&gt; &quot;x259395895&quot;, &quot;&quot;, &quot;x12283282&quot;, &quot;x1019932214224654338 x19544055&quot;, &quot;x14190…
+## $ mentions_screen_name    &lt;chr&gt; &quot;JohnJHarwood&quot;, &quot;&quot;, &quot;Scott&quot;, &quot;MoreForYou_CLE DanGrazianoESPN&quot;, &quot;jbouie T…
+## $ lang                    &lt;chr&gt; &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, &quot;en&quot;, …
+## $ quoted_status_id        &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;x14517525201671…
+## $ quoted_text             &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;welppppp hey re…
+## $ quoted_created_at       &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, &quot;2021-10-23 03:2…
+## $ quoted_source           &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;Twitter Web App…
+## $ quoted_favorite_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 311, NA, NA, NA,…
+## $ quoted_retweet_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 51, NA, NA, NA, …
+## $ quoted_user_id          &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;x32476610&quot;, &quot;&quot;,…
+## $ quoted_screen_name      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;JoezMcfLy&quot;, &quot;&quot;,…
+## $ quoted_name             &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;JoezMcfly🇩🇴&quot;, &quot;…
+## $ quoted_followers_count  &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 37262, NA, NA, N…
+## $ quoted_friends_count    &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 1374, NA, NA, NA…
+## $ quoted_statuses_count   &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 85660, NA, NA, N…
+## $ quoted_location         &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;Bronx, NY&quot;, &quot;&quot;,…
+## $ quoted_description      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;#Yankees @Youtu…
+## $ quoted_verified         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, FALSE, NA, NA, N…
+## $ retweet_status_id       &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_text            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_created_at      &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_source          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_favorite_count  &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_retweet_count   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_user_id         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_screen_name     &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_name            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_followers_count &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_friends_count   &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_statuses_count  &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_location        &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_description     &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ retweet_verified        &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ place_url               &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, …
+## $ place_name              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, …
+## $ place_full_name         &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, …
+## $ place_type              &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, …
+## $ country                 &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, …
+## $ country_code            &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, …
+## $ geo_coords              &lt;chr&gt; &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, …
+## $ coords_coords           &lt;chr&gt; &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, &quot;NA NA&quot;, …
+## $ bbox_coords             &lt;chr&gt; &quot;NA NA NA NA NA NA NA NA&quot;, &quot;NA NA NA NA NA NA NA NA&quot;, &quot;NA NA NA NA NA NA…
+## $ status_url              &lt;chr&gt; &quot;https://twitter.com/WellReadDan/status/1452965966909001737&quot;, &quot;https://t…
+## $ name                    &lt;chr&gt; &quot;Danny&quot;, &quot;Harley Solberg&quot;, &quot;casandra angela 💉💉&quot;, &quot;Remy Gallant&quot;, &quot;@ire…
+## $ location                &lt;chr&gt; &quot;Ohio&quot;, &quot;Brew City, WI&quot;, &quot;Australia&quot;, &quot;United States&quot;, &quot;Bowie, MD&quot;, &quot;Hun…
+## $ description             &lt;chr&gt; &quot;(Slightly more than) middle-aged truck driver who believes that all kno…
+## $ url                     &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://t.co/IeN6myJzAY&quot;, &quot;&quot;, &quot;&quot;, &quot;https://t.co/lkB…
+## $ protected               &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…
+## $ followers_count         &lt;int&gt; 244, 149, 1372, 116, 57, 6, 92, 7180, 5004, 207, 250, 57, 464, 212, 2335…
+## $ friends_count           &lt;int&gt; 851, 296, 652, 494, 296, 0, 372, 7882, 693, 788, 372, 145, 187, 254, 244…
+## $ listed_count            &lt;int&gt; 0, 1, 66, 1, 3, 0, 5, 2, 157, 1, 6, 1, 11, 0, 2, 1, 1, 2, 24, 3, 10, 1, …
+## $ statuses_count          &lt;int&gt; 6936, 7236, 65127, 8062, 8941, 2912, 3662, 22884, 2877, 4611, 22884, 260…
+## $ favourites_count        &lt;int&gt; 123447, 22358, 106415, 6572, 24021, 210, 2371, 51355, 6563, 9024, 2779, …
+## $ account_created_at      &lt;chr&gt; &quot;2010-11-06 14:15:33&quot;, &quot;2012-11-07 02:48:27&quot;, &quot;2014-06-06 09:19:55&quot;, &quot;20…
+## $ verified                &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FAL…
+## $ profile_url             &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;https://t.co/IeN6myJzAY&quot;, &quot;&quot;, &quot;&quot;, &quot;https://t.co/lkB…
+## $ profile_expanded_url    &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;http://www.idonthaveawebsite.com&quot;, &quot;&quot;, &quot;&quot;, &quot;http://…
+## $ account_lang            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ profile_banner_url      &lt;chr&gt; &quot;https://pbs.twimg.com/profile_banners/212590631/1529009720&quot;, &quot;https://p…
+## $ profile_background_url  &lt;chr&gt; &quot;http://abs.twimg.com/images/themes/theme1/bg.png&quot;, &quot;http://abs.twimg.co…
+## $ profile_image_url       &lt;chr&gt; &quot;http://pbs.twimg.com/profile_images/1406276893838659586/BQ6Tldmi_normal…
+## $ lat                     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ lng                     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+## $ search_term             &lt;chr&gt; &quot;no idea what he&#39;s saying&quot;, &quot;no idea what he&#39;s saying&quot;, &quot;no idea what he…</code></pre>
 <p>This showed us, again, that our data contains 4,542 observations with 94 variables. We don’t need all of this information from each of the tweets, so we need to curate a more useful data table for us to work with.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> twitter_data <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(<span class="fu">select</span>(biased_tweets, <span class="fu">c</span>(<span class="st">&quot;text&quot;</span>, <span class="st">&quot;text.1&quot;</span>, <span class="st">&quot;favorite_count&quot;</span>, <span class="st">&quot;retweet_count&quot;</span>, <span class="st">&quot;lat&quot;</span>, <span class="st">&quot;lng&quot;</span>, <span class="st">&quot;search_term&quot;</span>))) <span class="co"># create table of biased_tweets data with only specific columns</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>twitter_data</span></code></pre></div>
@@ -647,13 +647,13 @@ div.tocify {
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>() </span></code></pre></div>
 <pre><code>## Rows: 156
 ## Columns: 7
-## $ text           &lt;chr&gt; &quot;x1302815186&quot;, &quot;x2287288806&quot;, &quot;x367985248&quot;, &quot;x14133526&quot;, &quot;x1135…
-## $ text.1         &lt;chr&gt; &quot;As talented as Simmons is.. this is a terrible look. I’m not s…
-## $ favorite_count &lt;int&gt; 3, 0, 1, 1, 1, 0, 1, 0, 4, 0, 6, 2, 0, 0, 3, 0, 0, 85, 1, 0, 0,…
-## $ retweet_count  &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, …
-## $ lat            &lt;dbl&gt; 32.81001, 32.77997, 40.00134, 41.63819, 40.67088, 42.89623, 35.…
-## $ lng            &lt;dbl&gt; -117.10499, -97.28591, -74.18803, -87.47881, -73.83119, -78.853…
-## $ search_term    &lt;chr&gt; &quot;no idea what he&#39;s saying&quot;, &quot;no idea what he&#39;s saying&quot;, &quot;no ide…</code></pre>
+## $ text           &lt;chr&gt; &quot;x1302815186&quot;, &quot;x2287288806&quot;, &quot;x367985248&quot;, &quot;x14133526&quot;, &quot;x1135871881&quot;, &quot;x2542820…
+## $ text.1         &lt;chr&gt; &quot;As talented as Simmons is.. this is a terrible look. I’m not saying he can’t wan…
+## $ favorite_count &lt;int&gt; 3, 0, 1, 1, 1, 0, 1, 0, 4, 0, 6, 2, 0, 0, 3, 0, 0, 85, 1, 0, 0, 2, 0, 0, 0, 14, 1…
+## $ retweet_count  &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 2, …
+## $ lat            &lt;dbl&gt; 32.81001, 32.77997, 40.00134, 41.63819, 40.67088, 42.89623, 35.17050, 42.74662, 3…
+## $ lng            &lt;dbl&gt; -117.10499, -97.28591, -74.18803, -87.47881, -73.83119, -78.85356, -79.86103, -75…
+## $ search_term    &lt;chr&gt; &quot;no idea what he&#39;s saying&quot;, &quot;no idea what he&#39;s saying&quot;, &quot;no idea what he&#39;s saying…</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(twitter_geo_data) <span class="co">#see tweets in tabular format</span></span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">

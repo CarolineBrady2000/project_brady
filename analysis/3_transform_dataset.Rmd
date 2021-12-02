@@ -68,7 +68,6 @@ twitter_data %>%
 ```
 
 Now that each data set has a "word" column, we can join them together.
-
 ```{r join-datasets}
 tweets_words_allsentiments <- 
   left_join(tweets_words, sentiments) # join both data sets by word and assign to new object
