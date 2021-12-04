@@ -1,5 +1,6 @@
 ---
 title: "Exploring Linguistic Biases"
+author: Caroline Brady 
 date: "`r Sys.Date()`"
 bibliography: references.bib
 biblio-style: apalike
@@ -7,11 +8,11 @@ biblio-style: apalike
 
 # Exploring Linguistic Biases with Twitter
 
-### Research area and problem
+### Research Area and Problem
 
-The research area I am interested in learning more about is sociolinguistics, the study of language in society and how it interacts with characteristics such as gender, perceptions, attitudes, and geographic region [@sociolin]. A current topic of debate that I would like to address is which linguistic attitudes and biases are more prevalent in the United States and where do they occur. Linguistic discrimination affects many individuals in the United States because they are treated differently based on how they speak. There is still information to be learned about the patterns and origins of linguistic discrimination, in hopes of eventually figuring out what we can do to prevent it.
+The research area I am interested in learning more about is sociolinguistics, the study of language in society and how it interacts with characteristics such as gender, perceptions, attitudes, and geographic region [@sociolin]. A current topic of debate that I would like to address is which linguistic attitudes and biases are more prevalent in the United States and where they occur. Linguistic discrimination affects many individuals in the United States because they are treated differently based on how they speak. There is still information to be learned about the patterns and origins of linguistic discrimination, in hopes of eventually figuring out what we can do to prevent it.
 
-### Research aim and question
+### Research Aim and Question
 
 The aim of this research will be to use exploratory data analysis to investigate the prevalence of linguistic discrimination on social media in the United States. I will investigate and analyze discriminatory language on Twitter in hopes of understanding where certain biases are more prevalent, which biased terms are used most frequently, if the terms are used in a positive or negative context, and how popular these biased tweets are on social media. 
 
