@@ -138,11 +138,17 @@ tweet_count_summary <-
   mutate(se = sd / sqrt(n)) %>% # calculate standard error
   mutate(ci = se * qt((1-0.05) / 2 + .5, n - 1)) # calculate confidence interval
   
-ggplot(tweet_count_summary) + # summary dataset
+ plot1 <- ggplot(tweet_count_summary) + # summary dataset
   geom_bar(aes(x = search_term, y = mean), stat = "identity", alpha = 0.5) + # barplot (means)
   geom_errorbar(aes(x = search_term, ymin = mean-ci, ymax = mean+ci), colour = "red") + # error bars (confidence interval)
   coord_flip() + # flip x/y coordinates on plot
   labs(title = "Confidence interval", x = "Search terms", y = "Retweet count (mean)") # labels
+ 
+plot1
+```
+
+```{r save-plot1}
+  ggsave(filename = "../data/plot1.png", plot = plot1)
 ```
 
 
@@ -182,7 +188,7 @@ From this barplot, we can see similar trends where some search terms are favorit
 
 Here is another way to visualize the variability in favorite frequency, similar to how we visualized differences in retweet frequency. 
 ```{r favorite-count-search-term-trimmed}
-tweet_count_summary2 <- 
+favorite_frequency <- 
   twitter_data_trimmed %>% # trimmed dataset
   group_by(search_term) %>% # grouping parameter
   summarize(n = n(), # get total number of observations in each group
@@ -191,15 +197,23 @@ tweet_count_summary2 <-
   mutate(se = sd / sqrt(n)) %>% # calculate standard error
   mutate(ci = se * qt((1-0.05) / 2 + .5, n - 1)) # calculate confidence interval
   
-ggplot(tweet_count_summary) + # summary dataset
+plot2 <- ggplot(tweet_count_summary) + # summary dataset
   geom_bar(aes(x = search_term, y = mean), stat = "identity", alpha = 0.5) + # barplot (means)
   geom_errorbar(aes(x = search_term, ymin = mean-ci, ymax = mean+ci), colour = "purple") + # error bars (confidence interval)
   coord_flip() + # flip x/y coordinates on plot
   labs(title = "Confidence interval", x = "Search terms", y = "Favorite count (mean)") # labels
+
+plot2
+```
+
+```{r save-plot2}
+ggsave(filename = "../data/plot2.png", plot = plot2)
 ```
 
 
 This barplot shows us similar things to what we found from the retweet analysis. We can be reasonably confident that tweets with the phrase "black English" are retweeted and also favorited way more than terms with the phrase "can't understand her/him". People also favorite tweets with the term "language barrier" more than tweets with the terms "no idea what he's saying" and "non-native speaker". The data shows that there are very similar trends of popularity of search terms between retweet count and favorite count. 
+
+
 
 ### Geographic Analysis
 Let's look at our map and see if there are trends where certain biased terms are more common in certain regions. To recap, we have a map of the United States and the geolocation of each tweet plotted in a color corresponding to the biased search term that was contained in that tweet. This could help us visualize if certain biases are more prevalent in certain regions of the country. Understanding where biases are more common may help us begin to eliminate linguistic discrimination by targeting certain regions with certain information.
