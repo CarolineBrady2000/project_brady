@@ -28,7 +28,7 @@ knitr::opts_chunk$set(fig.width=6, fig.asp = 0.7, fig.align='center', echo=FALSE
 
 ## Background
 
-Categorization and mental heuristics are fundamental and unavoidable aspects of human nature. However, these mental judgments often lead to very harmful and toxic stereotypes and biases that become integrated into societies [@beukeboom2017]. The field of sociolinguistics studies language in society and how it interacts with characteristics such as gender, perceptions, attitudes, and geographic region [@sociolin]. One important topic within sociolinguistics is the origins and characteristics of linguistic discrimination. Linguistic discrimination affects many individuals in the United States because they are treated differently based on how they speak. Many individuals hold biases towards people who do not speak English as their native language, or who speak with an accent. For example, previous literature has demonstrated a susceptibility of transcribers to certain accent-induced biases. Results show how a speaker's perceived accent is a strong predictor for transcribed sounds by a native speaker [@sloos2019]. To continue, another study explored linguistic discrimination in a workplace setting, and found that accents trigger biases of an interviewer due to perceived lower similarity [@deprez-sims2010].
+Categorization and mental heuristics are fundamental and unavoidable aspects of human nature. However, these mental judgments often lead to very harmful and toxic stereotypes and biases that become integrated into societies [@beukeboom2017]. The field of sociolinguistics studies language in society and how it interacts with characteristics such as gender, perceptions, attitudes, and geographic region [@sociolin]. Important topics within sociolinguistics are the origins and characteristics of linguistic discrimination. Linguistic discrimination affects many individuals in the United States because they are treated differently based on how they speak. Many individuals hold biases towards people who do not speak English as their native language, or who speak with an accent. For example, previous literature has demonstrated a susceptibility of transcribers to certain accent-induced biases. Results show how a speaker's perceived accent is a strong predictor for transcribed sounds by a native speaker [@sloos2019]. To continue, another study explored linguistic discrimination in a workplace setting, and found that accents trigger biases of an interviewer due to perceived lower similarity [@deprez-sims2010].
 
 ## Purpose
 
@@ -50,7 +50,7 @@ As the purpose of this research study was to explore available data, the statist
 
 ## Sentiment Analysis
 
-From creating a cross-tabulation of words found in biased tweets and their attached sentiments, see a slight majority of negative words, 56%. Positive words occur less of the time, at 43%. However, since the percentages are relatively close to 50/50, this suggests that biased terms occur in contexts not completely dominated by negative or positive words, but in everyday language.
+From creating a cross-tabulation of words found in biased tweets and their attached sentiments, saw a slight majority of negative words, 56%. Positive words occur less of the time, at 43%. However, since the percentages are relatively close to 50/50, this suggests that biased terms occur in contexts not completely dominated by negative or positive words, but in everyday language.
 
 ## Popularity Analysis
 
