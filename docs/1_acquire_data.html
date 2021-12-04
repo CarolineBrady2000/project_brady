@@ -554,7 +554,7 @@ div.tocify {
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">search_term =</span> search_term) <span class="co"># add search_term value to the data frame</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(tweets) <span class="co"># return the results</span></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
-<p>Now we collect the twitter data with our custom term_search function to find a large sample of tweets containing our biased terms.</p>
+<p>Now we collect the twitter data with our custom term_search function to find a large sample of 500 tweets containing our biased terms.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  biased_terms <span class="sc">%&gt;%</span> <span class="co"># terms to search</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(term_search, <span class="at">n =</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span> <span class="co"># apply the function to each term, retrieve 500 tweets</span></span>
@@ -563,6 +563,7 @@ div.tocify {
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span> </span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(search_term, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="co">#count the number of tweets collected for each search term</span></span></code></pre></div>
+<p>We want to keep our first sample of tweets, so this code chunk makes sure we don’t get a new sample of tweets every time the code is run.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conduct_search <span class="ot">&lt;-</span> <span class="cn">FALSE</span> <span class="co"># set to TRUE to conduct a new search</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(conduct_search) {</span>

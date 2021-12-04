@@ -46,9 +46,11 @@ This showed us, again, that our data contains 4,542 observations with 94 variabl
 twitter_data
 ```
 
-This table successfully shows us all the tweets we acquired, which is a total of 4,542. The variables I chose to describe them include the ID number, the text of the tweet, how many times it was favorited, how many times it was retweeted, latitude and longitude, and which biased term was in the tweet [@7.tidyi].
+This table successfully shows us all the tweets we acquired. The variables I chose to describe them include the ID number, the text of the tweet, how many times it was favorited, how many times it was retweeted, latitude and longitude, and which biased term was in the tweet [@7.tidyi].
 
-Now we can use this table to explore factors like "How popular are tweets with certain biased terms?" "How many people retweet people's tweets that are discriminatory?" "Which groups of speakers are subject to the most bias on twitter as shown through these tweets?" However, not all of these tweets have available latitude and longitude information, so we will want to do a separate exploration on the tweets with this information.
+Now we can use this table to explore factors like "How popular are tweets with certain biased terms?" "How many people retweet people's tweets that are discriminatory?" "Which groups of speakers are subject to the most bias on twitter as shown through these tweets?"
+
+However, not all of these tweets have available latitude and longitude information, so we will want to do a separate exploration on the tweets with this information.
 
 Here we will create a separate object for the tweets with latitude and longitude information.
 

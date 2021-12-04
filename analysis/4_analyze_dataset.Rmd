@@ -51,9 +51,9 @@ sentiment_data %>% # data frame
   tabyl(sentiment) # cross-tabulate
 ```
 
-From this output, we see a slight majority of negative words, 56% negative. Positive words occur less of the time, at 43%. However, since the percentages are relatively close to 50/50, this suggests that biased terms occur in contexts not completely dominated by negative or positive words, but in everyday language.
+From this output, we see a slight majority of negative words, 56% negative. Positive words occur less of the time, at 43%. However, since the percentages are relatively close to 50/50, this suggests that biased terms occur in contexts not completely dominated by negative or positive words, but instead in everyday language.
 
-Next, let's look at the popularity of each search term. In everyday language, people may not explicitly say a discriminatory comment, as it is masked by other neutral or even positive words. Such comments may pass unnoticed and gain an audience on social media platforms like Twitter. On Twitter, we can easily see how "liked" or popular a tweet is by the number of people who retweet it. Let's look at a bar graph of each search term and how many times the tweet with that term was retweeted [\@11.expl\]. In this case, we'll want to use our original dataset with each row corresponding to one tweet to account for the fact that some tweets are longer than others.
+Next, let's look at the popularity of each search term. In everyday language, people may not explicitly say a discriminatory comment, as it is masked by other neutral or even positive words. Such comments may pass unnoticed and gain an audience on social media platforms like Twitter. On Twitter, we can easily see how "liked" or popular a tweet is by the number of people who retweet it. Let's look at a bar graph of each search term and how many times the tweet with that term was retweeted [@11.expl]. In this case, we'll want to use our original dataset with each row corresponding to one tweet to account for the fact that some tweets are longer than others.
 
 First we'll read in the data set.
 
@@ -76,7 +76,7 @@ p1 #preview barplot
 
 
 
-From this barplot, we can clearly see that there are some biased terms that are more popular than others based on how often they are retweeted. For example, tweets with the search term "does have an accent" are not retweeted very often, but tweets with the search term can't understnad her" or "hard to understand" are very popular and retweeted a lot. This finding may help people be more aware of certain terms that fly under the radar in casual informal conversations or texts, but actually have discriminatory meanings.
+From this barplot, we can clearly see that there are some biased terms that are more popular than others based on how often they are retweeted. For example, tweets with the search term "does have an accent" are not retweeted very often, but tweets with the search term "can't understand her" or "hard to understand" are very popular and retweeted a lot. This finding may help people be more aware of certain terms that fly under the radar in casual informal conversations or texts, but actually have discriminatory meanings.
 
 To visualize the variability of the number of retweets for each search term, let's create a plot with confidence interval error bars [@holtz].
 ```{r retweet-count-search-term-original}
@@ -216,7 +216,7 @@ This barplot shows us similar things to what we found from the retweet analysis.
 
 
 ### Geographic Analysis
-Let's look at our map and see if there are trends where certain biased terms are more common in certain regions. To recap, we have a map of the United States and the geolocation of each tweet plotted in a color corresponding to the biased search term that was contained in that tweet. This could help us visualize if certain biases are more prevalent in certain regions of the country. Understanding where biases are more common may help us begin to eliminate linguistic discrimination by targeting certain regions with certain information.
+Let's look at our map and see if there are trends where certain biased terms are more common in certain regions. To recap, we have a map of the United States and the geolocation of each tweet plotted in a color corresponding to the biased search term the tweet contained. This could help us visualize if certain biases are more prevalent in certain regions of the country. Understanding where biases are more common may help us begin to eliminate linguistic discrimination by targeting certain regions with certain information.
 
 ```{r insert-map}
 knitr::include_graphics(path="../data/states_map_fixed.png") #pull image from the data folder and print in this page

@@ -59,7 +59,7 @@ term_search <-
   }
 ```
 
-Now we collect the twitter data with our custom term_search function to find a large sample of tweets containing our biased terms.
+Now we collect the twitter data with our custom term_search function to find a large sample of 500 tweets containing our biased terms.
 
 ```{r collect-500-tweets-and-count-frequency, eval=FALSE}
 results <- 
@@ -72,6 +72,7 @@ results %>%
   count(search_term, sort = TRUE) #count the number of tweets collected for each search term
 ```
 
+We want to keep our first sample of tweets, so this code chunk makes sure we don't get a new sample of tweets every time the code is run. 
 ```{r conduct-the-search}
 conduct_search <- FALSE # set to TRUE to conduct a new search
 
